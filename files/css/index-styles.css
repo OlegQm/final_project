@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: white;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+button {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+canvas {
+    width: 80vw; /* Ширина 80% от ширины экрана */
+    max-width: 500px; /* Максимальная ширина */
+    aspect-ratio: 4 / 5; /* Соотношение сторон для ПК */
+    border: 2px solid white;
+    background-color: black;
+}
+
+/* Специальное соотношение для мобильных устройств */
+@media (max-width: 600px) {
+    canvas {
+        aspect-ratio: 4 / 7; /* Более длинное соотношение сторон для мобильных устройств */
+    }
+}
