@@ -1,6 +1,9 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const startButton = document.getElementById("startButton");
+const popup = document.getElementById("popup");
+const popupMessage = document.getElementById("popupMessage");
+const playAgainButton = document.getElementById("playAgainButton");
+const nextLevelButton = document.getElementById("nextLevelButton");
 
 let isGameActive = false;
 let player;
@@ -14,18 +17,12 @@ const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 const playerImg = new Image();
 playerImg.src = 'files/images/player.jpg';
-playerImg.onload = () => console.log("Player image loaded successfully.");
-playerImg.onerror = () => console.error("Failed to load player image.");
 
 const enemyImg = new Image();
 enemyImg.src = 'files/images/enemy.jpg';
-enemyImg.onload = () => console.log("Enemy image loaded successfully.");
-enemyImg.onerror = () => console.error("Failed to load enemy image.");
 
 const bulletImg = new Image();
 bulletImg.src = 'files/images/bullet.jpg';
-bulletImg.onload = () => console.log("Bullet image loaded successfully.");
-bulletImg.onerror = () => console.error("Failed to load bullet image.");
 
 function resizeCanvas() {
     canvas.width = canvas.clientWidth;
@@ -35,14 +32,17 @@ function resizeCanvas() {
 window.addEventListener("load", resizeCanvas);
 window.addEventListener("resize", resizeCanvas);
 
-startButton.addEventListener("click", () => {
-    if (!isGameActive) {
-        startButton.innerText = "PLAY AGAIN";
-        resetGame();
-        isGameActive = true;
-        gameLoop();
-    }
+playAgainButton.addEventListener("click", () => {
+    popup.classList.add("hidden");
+    resetGame();
+    isGameActive = true;
+    gameLoop();
 });
+
+function showPopup(message) {
+    popupMessage.textContent = message;
+    popup.classList.remove("hidden");
+}
 
 function createPlayer() {
     player = {
@@ -164,8 +164,8 @@ function checkCollisions() {
                 bullets.splice(bIndex, 1);
 
                 if (enemies.length === 0) {
-                    alert("Вы победили!");
                     isGameActive = false;
+                    showPopup("You Win!");
                 }
             }
         });
@@ -178,8 +178,8 @@ function checkCollisions() {
             player.y < enemy.y + enemy.height &&
             player.y + player.height > enemy.y
         ) {
-            alert("Игра окончена!");
             isGameActive = false;
+            showPopup("Game Over");
         }
     });
 }
@@ -189,13 +189,14 @@ function resetGame() {
     createPlayer();
     createEnemies();
     bullets = [];
+    isGameActive = true;
 }
 
 document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
         isMovingLeft = true;
     }
-    if (e.key === "ArrowRight") {
+    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         isMovingRight = true;
     }
     if (e.key === " " && !isMobile) {
@@ -210,6 +211,15 @@ document.addEventListener("keyup", (e) => {
     if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         isMovingRight = false;
     }
+});
+
+const startButton = document.getElementById("startButton");
+
+startButton.addEventListener("click", () => {
+    startButton.classList.add("hidden");
+    resetGame();
+    isGameActive = true;
+    gameLoop();
 });
 
 if (isMobile) {

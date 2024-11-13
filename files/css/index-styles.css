@@ -4,6 +4,27 @@
     padding: 0;
 }
 
+.hidden {
+    display: none;
+}
+
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+}
+
+#popup button {
+    margin: 5px;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -26,15 +47,14 @@ button {
 
 canvas {
     width: 80vw; 
-    max-width: 500px; /* Максимальная ширина */
-    aspect-ratio: 4 / 5; /* Соотношение сторон для ПК */
+    max-width: 500px;
+    aspect-ratio: 4 / 5;
     border: 2px solid white;
     background-color: black;
 }
 
-/* Специальное соотношение для мобильных устройств */
 @media (max-width: 600px) {
     canvas {
-        aspect-ratio: 4 / 7; /* Более длинное соотношение сторон для мобильных устройств */
+        aspect-ratio: 4 / 7;
     }
 }
