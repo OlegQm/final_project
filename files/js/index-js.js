@@ -204,10 +204,10 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("keyup", (e) => {
-    if (e.key === "ArrowLeft") {
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
         isMovingLeft = false;
     }
-    if (e.key === "ArrowRight") {
+    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         isMovingRight = false;
     }
 });
