@@ -32,8 +32,8 @@ function loadProgress() {
     const savedProgress = localStorage.getItem('gameProgress');
     if (savedProgress) {
         const progress = JSON.parse(savedProgress);
-        nextLevel = progress.level || 1;
-        console.log("Progress loaded from localStorage:", progress);
+        nextLevel = progress.lastCompletedLevel || "index.html";
+        console.log("Progress loaded from localStorage:", nextLevel);
     } else {
         console.log("No saved progress found, starting from level 1.");
     }
@@ -49,6 +49,16 @@ function saveProgress() {
 
 window.addEventListener("load", () => {
     loadProgress();
+    if (nextLevel === "index.html") {
+        console.log("This is the first level.");
+        nextLevelButton.disabled = true;
+    } else {
+        console.log("This is not the first level.");
+        if (!sessionStorage.getItem("firstLoadDone")) {
+            sessionStorage.setItem("firstLoadDone", "true");
+            window.location.href = "files/pages/pages-html/" + nextLevel;
+        }
+    }
     resizeCanvas();
     updateEnemyCounter();
 });
@@ -212,6 +222,7 @@ function checkCollisions() {
                     showPopup("You Win!");
                     nextLevel = "second-level-page.html";
                     saveProgress();
+                    nextLevelButton.disabled = false;
                 }
             }
         });
