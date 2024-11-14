@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Invaders Game</title>
     <link rel="stylesheet" href="files/css/index-styles.css">
 </head>
+
 <body>
     <h1>Space Invaders</h1>
-    <canvas id="gameCanvas"></canvas>
-    
+    <div id="enemyCounterContainer">
+        <span>Enemies killed: </span><span id="enemyCounter">0</span>
+    </div>
+
     <button id="startButton">START</button>
+    <canvas id="gameCanvas"></canvas>
 
     <div id="popup" class="hidden">
         <p id="popupMessage"></p>
@@ -20,4 +25,5 @@
 
     <script src="files/js/index-js.js"></script>
 </body>
+
 </html>
