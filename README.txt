@@ -1,1 +1,1 @@
-This it the game developed by two students: Oleh Savchenko and Anastasiia Samoilenko.
+This is the game developed by two students: Oleh Savchenko and Anastasiia Samoilenko.
