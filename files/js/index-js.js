@@ -13,6 +13,8 @@ let enemyDirection = 1;
 let isMovingLeft = false;
 let isMovingRight = false;
 let canShoot = true;
+let killedEnemiesCount = 0;
+let nextLevel = "index.html";
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 const playerImg = new Image();
@@ -24,19 +26,52 @@ enemyImg.src = 'files/images/enemy.jpg';
 const bulletImg = new Image();
 bulletImg.src = 'files/images/bullet.jpg';
 
+const enemyCounter = document.getElementById("enemyCounter");
+
+function loadProgress() {
+    const savedProgress = localStorage.getItem('gameProgress');
+    if (savedProgress) {
+        const progress = JSON.parse(savedProgress);
+        nextLevel = progress.level || 1;
+        console.log("Progress loaded from localStorage:", progress);
+    } else {
+        console.log("No saved progress found, starting from level 1.");
+    }
+}
+
+function saveProgress() {
+    const progress = {
+        lastCompletedLevel: nextLevel
+    };
+    localStorage.setItem('gameProgress', JSON.stringify(progress));
+    console.log("Progress saved to localStorage:", progress);
+}
+
+window.addEventListener("load", () => {
+    loadProgress();
+    resizeCanvas();
+    updateEnemyCounter();
+});
+
 function resizeCanvas() {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 }
 
-window.addEventListener("load", resizeCanvas);
 window.addEventListener("resize", resizeCanvas);
 
 playAgainButton.addEventListener("click", () => {
     popup.classList.add("hidden");
+    killedEnemiesCount = 0;
     resetGame();
     isGameActive = true;
     gameLoop();
+});
+
+nextLevelButton.addEventListener("click", () => {
+    popup.classList.add("hidden");
+    saveProgress();
+    window.location.href = "files/pages/pages-html/" + nextLevel;
 });
 
 function showPopup(message) {
@@ -115,7 +150,14 @@ function update() {
 
     if (hitWall) {
         enemyDirection *= -1;
-        enemies.forEach(enemy => enemy.y += 20);
+        enemies.forEach(enemy => {
+            enemy.y += 20;
+            if (enemy.y + enemy.height >= canvas.height - player.height) {
+                isGameActive = false;
+                showPopup("Game Over");
+                saveProgress();
+            }
+        });
     }
 
     checkCollisions();
@@ -147,7 +189,7 @@ function createBullet() {
         canShoot = false;
         setTimeout(() => {
             canShoot = true;
-        }, 500);
+        }, 1); // BULLET SPEED 500 ms
     }
 }
 
@@ -162,10 +204,14 @@ function checkCollisions() {
             ) {
                 enemies.splice(eIndex, 1);
                 bullets.splice(bIndex, 1);
+                killedEnemiesCount++;
+                updateEnemyCounter();
 
                 if (enemies.length === 0) {
                     isGameActive = false;
                     showPopup("You Win!");
+                    nextLevel = "second-level-page.html";
+                    saveProgress();
                 }
             }
         });
@@ -180,6 +226,7 @@ function checkCollisions() {
         ) {
             isGameActive = false;
             showPopup("Game Over");
+            saveProgress();
         }
     });
 }
@@ -189,7 +236,13 @@ function resetGame() {
     createPlayer();
     createEnemies();
     bullets = [];
+    killedEnemiesCount = 0;
+    updateEnemyCounter();
     isGameActive = true;
+}
+
+function updateEnemyCounter() {
+    enemyCounter.textContent = killedEnemiesCount;
 }
 
 document.addEventListener("keydown", (e) => {
