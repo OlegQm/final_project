@@ -4,17 +4,21 @@ const popup = document.getElementById("popup");
 const popupMessage = document.getElementById("popupMessage");
 const playAgainButton = document.getElementById("playAgainButton");
 const nextLevelButton = document.getElementById("nextLevelButton");
+const startButton = document.getElementById("startButton");
 
 let isGameActive = false;
 let player;
 let bullets = [];
 let enemies = [];
+let levelsCompleted = [];
+let unfinishedLevels = [];
 let enemyDirection = 1;
 let isMovingLeft = false;
 let isMovingRight = false;
 let canShoot = true;
 let killedEnemiesCount = 0;
-let nextLevel = "index.html";
+let currentLevelConfig;
+nextLevelButton.disabled = true;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 const playerImg = new Image();
@@ -28,47 +32,72 @@ bulletImg.src = 'files/images/bullet.jpg';
 
 const enemyCounter = document.getElementById("enemyCounter");
 
+const endGamePopup = document.createElement("div");
+endGamePopup.id = "endGamePopup";
+endGamePopup.classList.add("hidden");
+endGamePopup.innerHTML = `
+    <p>Game Over! All levels completed.</p>
+    <button id="restartGameButton">Restart</button>
+`;
+document.body.appendChild(endGamePopup);
+
+function restartGame() {
+    gameLoop.isGameActive = false;
+    // clearGameObjects();
+    localStorage.removeItem('gameProgress');
+    endGamePopup.classList.add("hidden");
+    startButton.classList.remove("hidden");
+    console.log("Progress reset, game restarted.");
+}
+
+document.getElementById("restartGameButton").addEventListener("click", restartGame);
+
+function excludeElements(arr1, arr2) {
+    return arr1.filter(element => !arr2.includes(element));
+}
+
+function getRandomNumberFromArray(array) {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+}
+
+async function loadLevelConfig() {
+    try {
+        const response = await fetch('files/pages/levels-settings/tasks.json');
+        const levels = await response.json();
+        unfinishedLevels = excludeElements(levels.map(level => level.id), levelsCompleted);
+        console.log("Unfinished levels:", unfinishedLevels, " ", !unfinishedLevels.length);
+
+        const randomLevelId = getRandomNumberFromArray(unfinishedLevels);
+        currentLevelConfig = levels.find(level => level.id === randomLevelId);
+        console.log("Level configuration loaded:", currentLevelConfig);
+    } catch (error) {
+        console.error("Failed to load level configurations:", error);
+    }
+}
+
 function loadProgress() {
     const savedProgress = localStorage.getItem('gameProgress');
     if (savedProgress) {
-        const progress = JSON.parse(savedProgress);
-        nextLevel = progress.lastCompletedLevel || "index.html";
-        console.log("Progress loaded from localStorage:", nextLevel);
+        levelsCompleted = JSON.parse(savedProgress);
+        console.log("Completed levels:", levelsCompleted);
     } else {
-        console.log("No saved progress found, starting from level 1.");
+        console.log("You haven't completed any levels.");
     }
 }
 
 function saveProgress() {
-    const progress = {
-        lastCompletedLevel: nextLevel
-    };
-    localStorage.setItem('gameProgress', JSON.stringify(progress));
-    console.log("Progress saved to localStorage:", progress);
-}
-
-window.addEventListener("load", () => {
-    loadProgress();
-    if (nextLevel === "index.html") {
-        console.log("This is the first level.");
-        nextLevelButton.disabled = true;
-    } else {
-        console.log("This is not the first level.");
-        if (!sessionStorage.getItem("firstLoadDone")) {
-            sessionStorage.setItem("firstLoadDone", "true");
-            window.location.href = "files/pages/pages-html/" + nextLevel;
-        }
+    if (!levelsCompleted.includes(currentLevelConfig.id)) {
+        levelsCompleted.push(currentLevelConfig.id);
+        localStorage.setItem('gameProgress', JSON.stringify(levelsCompleted));
+        console.log("Progress saved to localStorage:", levelsCompleted);
     }
-    resizeCanvas();
-    updateEnemyCounter();
-});
-
-function resizeCanvas() {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
 }
 
-window.addEventListener("resize", resizeCanvas);
+function showPopup(message) {
+    popupMessage.textContent = message;
+    popup.classList.remove("hidden");
+}
 
 playAgainButton.addEventListener("click", () => {
     popup.classList.add("hidden");
@@ -78,16 +107,62 @@ playAgainButton.addEventListener("click", () => {
     gameLoop();
 });
 
-nextLevelButton.addEventListener("click", () => {
-    popup.classList.add("hidden");
+function handleZeroLevels() {
+    isGameActive = false;
+    clearGameObjects();
+    killedEnemiesCount = 0;
+    updateEnemyCounter();
+    endGamePopup.classList.remove("hidden");
+    levelsCompleted = [];
     saveProgress();
-    window.location.href = "files/pages/pages-html/" + nextLevel;
+}
+
+async function holdEndGamePopup() {
+    loadProgress();
+    const response = await fetch('files/pages/levels-settings/tasks.json');
+    const levels = await response.json();
+    unfinishedLevels = excludeElements(levels.map(level => level.id), levelsCompleted);
+    if (!unfinishedLevels.length) {
+        handleZeroLevels();
+    }
+}
+
+nextLevelButton.addEventListener("click", async () => {
+    popup.classList.add("hidden");
+    await loadLevelConfig();
+    if (!unfinishedLevels.length) {
+        handleZeroLevels();
+        return;
+    }
+    resetGame();
+    isGameActive = true;
+    gameLoop();
 });
 
-function showPopup(message) {
-    popupMessage.textContent = message;
-    popup.classList.remove("hidden");
+startButton.addEventListener("click", async () => {
+    startButton.classList.add("hidden");
+    await loadLevelConfig();
+    resetGame();
+    isGameActive = true;
+    gameLoop();
+});
+
+function resetGame() {
+    resizeCanvas();
+    createPlayer();
+    createEnemies();
+    bullets = [];
+    killedEnemiesCount = 0;
+    updateEnemyCounter();
+    isGameActive = true;
 }
+
+function resizeCanvas() {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
 
 function createPlayer() {
     player = {
@@ -95,7 +170,7 @@ function createPlayer() {
         y: canvas.height - 30,
         width: 30,
         height: 30,
-        speed: Math.max(2, canvas.width * 0.007)
+        speed: currentLevelConfig.playerSpeed || Math.max(2, canvas.width * 0.007)
     };
 }
 
@@ -107,8 +182,12 @@ function createEnemies() {
     const startY = 30;
     const gap = 40;
 
-    const rows = isMobile ? 3 : 4;
-    const cols = isMobile ? 6 : 10;
+    let rows = currentLevelConfig.rows;
+    let cols = currentLevelConfig.cols;
+
+    if (isMobile && window.innerWidth >= 281 && window.innerWidth <= 768) {
+        cols = currentLevelConfig.mobileEnemies || cols;
+    }
 
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
@@ -117,11 +196,19 @@ function createEnemies() {
                 y: startY + row * gap,
                 width: enemyWidth,
                 height: enemyHeight,
-                speed: Math.max(1, canvas.width * 0.002)
+                speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002)
             });
         }
     }
 }
+
+function clearGameObjects() {
+    bullets = [];
+    enemies = [];
+    player = null;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 
 function gameLoop() {
     if (!isGameActive) return;
@@ -135,11 +222,13 @@ function gameLoop() {
 }
 
 function update() {
-    if (isMovingLeft && player.x > 0) {
-        player.x -= player.speed;
-    }
-    if (isMovingRight && player.x < canvas.width - player.width) {
-        player.x += player.speed;
+    if (player) {
+        if (isMovingLeft && player.x > 0) {
+            player.x -= player.speed;
+        }
+        if (isMovingRight && player.x < canvas.width - player.width) {
+            player.x += player.speed;
+        }
     }
 
     bullets.forEach((bullet, index) => {
@@ -150,6 +239,7 @@ function update() {
     });
 
     let hitWall = false;
+
     enemies.forEach(enemy => {
         enemy.x += enemyDirection * enemy.speed;
 
@@ -161,11 +251,11 @@ function update() {
     if (hitWall) {
         enemyDirection *= -1;
         enemies.forEach(enemy => {
-            enemy.y += 20;
+            enemy.y += currentLevelConfig.enemyDropSpeed || 20;
             if (enemy.y + enemy.height >= canvas.height - player.height) {
                 isGameActive = false;
+                nextLevelButton.disabled = true;
                 showPopup("Game Over");
-                saveProgress();
             }
         });
     }
@@ -176,7 +266,9 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+    if (player) {
+        ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+    }
 
     bullets.forEach(bullet => {
         ctx.drawImage(bulletImg, bullet.x, bullet.y, bullet.width, bullet.height);
@@ -199,7 +291,7 @@ function createBullet() {
         canShoot = false;
         setTimeout(() => {
             canShoot = true;
-        }, 1); // BULLET SPEED 500 ms
+        }, currentLevelConfig.bulletCooldown || 500);
     }
 }
 
@@ -220,9 +312,8 @@ function checkCollisions() {
                 if (enemies.length === 0) {
                     isGameActive = false;
                     showPopup("You Win!");
-                    nextLevel = "second-level-page.html";
-                    saveProgress();
                     nextLevelButton.disabled = false;
+                    saveProgress();
                 }
             }
         });
@@ -236,20 +327,10 @@ function checkCollisions() {
             player.y + player.height > enemy.y
         ) {
             isGameActive = false;
+            nextLevelButton.disabled = true;
             showPopup("Game Over");
-            saveProgress();
         }
     });
-}
-
-function resetGame() {
-    resizeCanvas();
-    createPlayer();
-    createEnemies();
-    bullets = [];
-    killedEnemiesCount = 0;
-    updateEnemyCounter();
-    isGameActive = true;
 }
 
 function updateEnemyCounter() {
@@ -277,15 +358,6 @@ document.addEventListener("keyup", (e) => {
     }
 });
 
-const startButton = document.getElementById("startButton");
-
-startButton.addEventListener("click", () => {
-    startButton.classList.add("hidden");
-    resetGame();
-    isGameActive = true;
-    gameLoop();
-});
-
 if (isMobile) {
     window.addEventListener("devicemotion", (event) => {
         if (!isGameActive) return;
@@ -308,4 +380,4 @@ if (isMobile) {
     });
 }
 
-resetGame();
+document.addEventListener("load", holdEndGamePopup());
