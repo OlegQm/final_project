@@ -1,0 +1,158 @@
+{
+    "low": [
+        {
+            "id": 1,
+            "rows": 2,
+            "cols": 5,
+            "mobileEnemies": 2,
+            "enemySpeed": 1,
+            "bulletCooldown": 500,
+            "enemyDropSpeed": 10,
+            "playerSpeed": 5
+        },
+        {
+            "id": 2,
+            "rows": 3,
+            "cols": 6,
+            "mobileEnemies": 3,
+            "enemySpeed": 1,
+            "bulletCooldown": 400,
+            "enemyDropSpeed": 12,
+            "playerSpeed": 5
+        },
+        {
+            "id": 3,
+            "rows": 3,
+            "cols": 7,
+            "mobileEnemies": 4,
+            "enemySpeed": 2,
+            "bulletCooldown": 350,
+            "enemyDropSpeed": 15,
+            "playerSpeed": 4
+        },
+        {
+            "id": 4,
+            "rows": 4,
+            "cols": 8,
+            "mobileEnemies": 4,
+            "enemySpeed": 2,
+            "bulletCooldown": 100,
+            "enemyDropSpeed": 20,
+            "playerSpeed": 4
+        },
+        {
+            "id": 5,
+            "rows": 4,
+            "cols": 7,
+            "mobileEnemies": 5,
+            "enemySpeed": 3,
+            "bulletCooldown": 250,
+            "enemyDropSpeed": 25,
+            "playerSpeed": 3
+        }
+    ],
+    "medium": [
+        {
+            "id": 6,
+            "rows": 4,
+            "cols": 6,
+            "mobileEnemies": 4,
+            "enemySpeed": 2,
+            "bulletCooldown": 400,
+            "enemyDropSpeed": 15,
+            "playerSpeed": 4
+        },
+        {
+            "id": 7,
+            "rows": 4,
+            "cols": 7,
+            "mobileEnemies": 5,
+            "enemySpeed": 3,
+            "bulletCooldown": 300,
+            "enemyDropSpeed": 25,
+            "playerSpeed": 4
+        },
+        {
+            "id": 8,
+            "rows": 3,
+            "cols": 7,
+            "mobileEnemies": 6,
+            "enemySpeed": 3,
+            "bulletCooldown": 250,
+            "enemyDropSpeed": 25,
+            "playerSpeed": 3
+        },
+        {
+            "id": 9,
+            "rows": 5,
+            "cols": 6,
+            "mobileEnemies": 6,
+            "enemySpeed": 4,
+            "bulletCooldown": 200,
+            "enemyDropSpeed": 30,
+            "playerSpeed": 3
+        },
+        {
+            "id": 10,
+            "rows": 6,
+            "cols": 6,
+            "mobileEnemies": 7,
+            "enemySpeed": 4,
+            "bulletCooldown": 20,
+            "enemyDropSpeed": 30,
+            "playerSpeed": 2
+        }
+    ],
+    "hard": [
+        {
+            "id": 11,
+            "rows": 6,
+            "cols": 8,
+            "mobileEnemies": 6,
+            "enemySpeed": 4,
+            "bulletCooldown": 300,
+            "enemyDropSpeed": 20,
+            "playerSpeed": 3
+        },
+        {
+            "id": 12,
+            "rows": 6,
+            "cols": 6,
+            "mobileEnemies": 7,
+            "enemySpeed": 5,
+            "bulletCooldown": 1,
+            "enemyDropSpeed": 25,
+            "playerSpeed": 3
+        },
+        {
+            "id": 13,
+            "rows": 5,
+            "cols": 8,
+            "mobileEnemies": 8,
+            "enemySpeed": 5,
+            "bulletCooldown": 1,
+            "enemyDropSpeed": 20,
+            "playerSpeed": 2
+        },
+        {
+            "id": 14,
+            "rows": 3,
+            "cols": 7,
+            "mobileEnemies": 9,
+            "enemySpeed": 6,
+            "bulletCooldown": 1,
+            "enemyDropSpeed": 25,
+            "playerSpeed": 2
+        },
+        {
+            "id": 15,
+            "rows": 8,
+            "cols": 3,
+            "mobileEnemies": 10,
+            "enemySpeed": 7,
+            "bulletCooldown": 1,
+            "enemyDropSpeed": 30,
+            "playerSpeed": 1
+        }
+    ]
+}
