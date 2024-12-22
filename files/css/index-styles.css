@@ -148,3 +148,44 @@ canvas {
 #resumeButton:hover {
     background-color: #ddd;
 }
+
+#gameContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+.arrowButton {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    color: #000;
+    font-size: 20px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.arrowButton:hover {
+    background-color: #ddd;
+}
+
+#leftArrow {
+    margin-right: 10px;
+}
+
+#rightArrow {
+    margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .arrowButton {
+        display: none;
+    }
+}

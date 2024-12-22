@@ -7,6 +7,8 @@ const nextLevelButton = document.getElementById("nextLevelButton");
 const startButton = document.getElementById("startButton");
 let gameTitle = document.getElementById("gameTitle");
 const enemyCounterContainer = document.getElementById("enemyCounterContainer");
+const leftArrow = document.getElementById("leftArrow");
+const rightArrow = document.getElementById("rightArrow");
 
 let isGameActive = false;
 let isPaused = false;
@@ -84,20 +86,26 @@ pauseModal.innerHTML = `
 `;
 document.body.appendChild(pauseModal);
 
-document.getElementById("resumeButton").addEventListener("click", () => {
-    isPaused = false;
-    pauseModal.classList.add("hidden");
-    pauseButton.disabled = false;
-    if (isGameActive) gameLoop();
-});
+function resumeTheGame() {
+    if (isPaused) {
+        isPaused = false;
+        pauseModal.classList.add("hidden");
+        pauseButton.disabled = false;
+        if (isGameActive) gameLoop();
+    }
+}
 
-pauseButton.addEventListener("click", () => {
+document.getElementById("resumeButton").addEventListener("click", resumeTheGame);
+
+function pauseTheGame() {
     if (!isPaused) {
         isPaused = true;
         pauseModal.classList.remove("hidden");
         pauseButton.disabled = true;
     }
-});
+}
+
+pauseButton.addEventListener("click", pauseTheGame);
 
 function excludeElements(arr1, arr2) {
     return arr1.filter((element) => !arr2.includes(element));
@@ -442,15 +450,43 @@ function updateEnemyCounter() {
     enemyCounter.textContent = killedEnemiesCount;
 }
 
+leftArrow.addEventListener("mousedown", () => {
+    isMovingLeft = true;
+});
+
+rightArrow.addEventListener("mousedown", () => {
+    isMovingRight = true;
+});
+
+leftArrow.addEventListener("mouseup", () => {
+    isMovingLeft = false;
+});
+
+rightArrow.addEventListener("mouseup", () => {
+    isMovingRight = false;
+});
+
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
         isMovingLeft = true;
     }
-    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+    else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         isMovingRight = true;
     }
-    if (e.key === " " && !isMobile) {
-        createBullet();
+    else {
+        switch(e.key) {
+            case " ":
+                createBullet();
+                break;
+            case "p":
+            case "P":
+                pauseTheGame();
+                break;
+            case "c":
+            case "C":
+                resumeTheGame();
+                break;
+        }
     }
 });
 
@@ -458,7 +494,7 @@ document.addEventListener("keyup", (e) => {
     if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
         isMovingLeft = false;
     }
-    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+    else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         isMovingRight = false;
     }
 });
