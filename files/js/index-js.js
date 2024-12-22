@@ -39,7 +39,6 @@ bulletImg.src = "files/images/bullet.jpg";
 
 const enemyCounter = document.getElementById("enemyCounter");
 
-// Create End Game Popup
 const endGamePopup = document.createElement("div");
 endGamePopup.id = "endGamePopup";
 endGamePopup.classList.add("hidden");
