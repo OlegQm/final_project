@@ -1,0 +1,148 @@
+/* Основные стили */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Контейнер инструкции */
+#instructionsScreen {
+    text-align: center;
+    background-color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+/* Заголовок */
+#instructionsScreen h1 {
+    font-size: 36px;
+    color: #ff4500;
+    margin-bottom: 20px;
+}
+
+/* Галерея */
+.gallery {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.gallery-content {
+    text-align: center;
+    flex: 1;
+}
+
+.gallery-image {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-text {
+    margin-top: 15px;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Стрелки */
+.arrow {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.arrow:hover {
+    background-color: rgba(255, 69, 0, 0.8);
+}
+
+.arrow.left {
+    position: absolute;
+    left: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.arrow.right {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Секция управления игрой */
+.instructions-content h2 {
+    font-size: 24px;
+    color: #ff6347;
+    margin-bottom: 15px;
+}
+
+.instructions-content ul {
+    list-style: none;
+    padding: 0;
+    font-size: 18px;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.instructions-content ul li {
+    margin: 10px 0;
+}
+
+.instructions-content ul li strong {
+    color: #ff4500;
+}
+
+/* Кнопка "Back to Start" */
+#backButton {
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #ff4500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#backButton:hover {
+    background-color: #ff6347;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .arrow.left {
+        left: -30px;
+    }
+
+    .arrow.right {
+        right: -30px;
+    }
+
+    #instructionsScreen {
+        width: 90%;
+    }
+}

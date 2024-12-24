@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inštrukcie k hre</title>
+    <link rel="stylesheet" href="files/css/instructions-styles.css">
+</head>
+
+<body>
+<div id="instructionsScreen">
+    <h1>Inštrukcie k hre</h1>
+
+    <!-- Галерея предыстории -->
+    <div class="gallery">
+        <button class="arrow left" onclick="changeSlide(-1)">&#10094;</button>
+        <div class="gallery-content">
+            <img src="files/images/1.webp" alt="Slide 1" class="gallery-image">
+            <p class="gallery-text">Kedysi dávno v útulnom dome žila šťastná rodina, v ktorej bol Tom, lenivý, ale ambiciózny kocúr, miláčikom domácich. Vždy sa považoval za pána domu.</p>
+        </div>
+        <div class="gallery-content hidden">
+            <img src="files/images/2.webp" alt="Slide 2" class="gallery-image">
+            <p class="gallery-text">Ale jedného dňa sa v komore objavila malá, no mimoriadne prefíkaná myška Jerry, ktorá si povedala, že dom je ideálne miesto pre jej nové útočisko.</p>
+        </div>
+        <div class="gallery-content hidden">
+            <img src="files/images/3.webp" alt="Slide 3" class="gallery-image">
+            <p class="gallery-text">Spočiatku Jerry jedol iba omrvinky a ukrýval sa vo svojej nore. No postupom času mu narástla chuť a začal kradnúť jedlo priamo zo stola.</p>
+        </div>
+        <div class="gallery-content hidden">
+            <img src="files/images/4.webp" alt="Slide 4" class="gallery-image">
+            <p class="gallery-text">Tom, cítiac ohrozenie svojho statusu obľúbenca, sa rozhodol Jerryho chytiť, aby si znovu získal rešpekt domácich.</p>
+        </div>
+        <div class="gallery-content hidden">
+            <img src="files/images/5.webp" alt="Slide 5" class="gallery-image">
+            <p class="gallery-text">Jerry sa však ukázal nielen ako šikovný, ale aj ako skutočný majster trikov! Namiesto úteku začal vymýšľať prešibané pasce, čím premenil dom na bojisko nekonečného súboja.</p>
+        </div>
+        <div class="gallery-content hidden">
+            <img src="files/images/6.webp" alt="Slide 6" class="gallery-image">
+            <p class="gallery-text">Teraz nie sú Tom a Jerry iba kocúr a myš. Sú to rivali, ktorí neustále súperia o nadvládu v dome.</p>
+        </div>
+        <div class="gallery-content hidden">
+            <img src="files/images/7.webp" alt="Slide 7" class="gallery-image">
+            <p class="gallery-text">Tom má všetko: šikovnosť, silu a plnú krabicu trikov. </p>
+        </div>
+        <div class="gallery-content hidden">
+            <img src="files/images/8.webp" alt="Slide 8" class="gallery-image">
+            <p class="gallery-text">Ale Jerry má rozum, prefíkanosť a obrovskú vôľu dokázať, že aj ten najmenší môže byť najsilnejší.
+            </p>
+        </div>
+        <button class="arrow right" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+
+    <!-- Секция управления игрой -->
+    <div class="instructions-content">
+        <h2>Ovládanie hry:</h2>
+        <ul>
+            <li><strong>W, A, S, D</strong> - Pohyb</li>
+            <li><strong>Šípky doľava a doprava</strong> - Pohyb do strán</li>
+            <li><strong>P</strong> - Pauza</li>
+            <li><strong>C</strong> - Pokračovanie v hre</li>
+            <li><strong>Medzerník</strong> - Streľba</li>
+        </ul>
+    </div>
+
+    <button id="backButton" onclick="window.location.href='start.html'">Späť na začiatok</button>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.gallery-content');
+
+    function changeSlide(direction) {
+        slides[currentSlide].classList.add('hidden');
+        currentSlide = (currentSlide + direction + slides.length) % slides.length;
+        slides[currentSlide].classList.remove('hidden');
+    }
+</script>
+</body>
+
+</html>
