@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#startScreen {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background-image: url("/files/images/s_2.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Логотип */
+#startImage {
+    max-width: 50%;
+    height: auto;
+    z-index: 1;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#startImage:hover {
+    transform: scale(1.05);
+}
+
+#startButton, #instructionsButton {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    width: 200px;
+    height: 60px;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px 0;
+    z-index: 1;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#startButton {
+    background-color: #ff4500;
+}
+
+#startButton:hover {
+    background-color: #ff6347;
+    transform: scale(1.05);
+}
+
+#instructionsButton {
+    background-color: #99b350;
+}
+
+#instructionsButton:hover {
+    background-color: #748f26;
+    transform: scale(1.05);
+}
+
+@media (min-width: 1200px) {
+    #startImage {
+        max-width: 35%;
+    }
+}
+
+@media (max-width: 768px) {
+    #startImage {
+        max-width: 60%;
+    }
+
+    #startButton, #instructionsButton {
+        width: 180px;
+        height: 50px;
+        font-size: 16px;
+    }
+}

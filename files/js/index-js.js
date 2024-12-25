@@ -39,7 +39,6 @@ bulletImg.src = "files/images/bullet.jpg";
 
 const enemyCounter = document.getElementById("enemyCounter");
 
-// Create End Game Popup
 const endGamePopup = document.createElement("div");
 endGamePopup.id = "endGamePopup";
 endGamePopup.classList.add("hidden");
@@ -243,7 +242,46 @@ nextLevelButton.addEventListener("click", async () => {
     gameLoop();
 });
 
-startButton.addEventListener("click", async () => {
+function handleMotion(event) {
+    if (!isGameActive) return;
+
+    const x = event.accelerationIncludingGravity?.x || 0;
+
+    if (x > 1) {
+        player.x = Math.max(0, player.x - player.speed);
+    } else if (x < -1) {
+        player.x = Math.min(canvas.width - player.width, player.x + player.speed);
+    }
+}
+
+function requestMotionPermission() {
+    if (
+        typeof DeviceMotionEvent !== "undefined" &&
+        typeof DeviceMotionEvent.requestPermission === "function"
+    ) {
+        return DeviceMotionEvent.requestPermission()
+            .then(permissionState => {
+                if (permissionState === "granted") {
+                    console.log("Permission granted for device motion.");
+                    window.addEventListener("devicemotion", handleMotion);
+                    return true;
+                } else {
+                    console.log("Permission denied for device motion.");
+                    return false;
+                }
+            })
+            .catch(error => {
+                console.error("Error requesting motion permission:", error);
+                return false;
+            });
+    } else {
+        console.log("DeviceMotionEvent.requestPermission not supported on this device.");
+        window.addEventListener("devicemotion", handleMotion);
+        return Promise.resolve(true);
+    }
+}
+
+function handleStart() {
     startButton.classList.add("hidden");
     enemyCounterContainer.classList.remove("hidden");
     loadProgress();
@@ -253,10 +291,21 @@ startButton.addEventListener("click", async () => {
         return;
     }
 
-    await loadLevelConfig();
-    resetGame();
-    isGameActive = true;
-    gameLoop();
+    loadLevelConfig().then(() => {
+        resetGame();
+        gameLoop();
+    });
+}
+
+startButton.addEventListener("click", async () => {
+    if (isMobile) {
+        requestMotionPermission().then(isGranted => {
+            if (!isGranted) return;
+            handleStart();
+        });
+    } else {
+        handleStart();
+    }
 });
 
 function resetGame() {
@@ -500,20 +549,6 @@ document.addEventListener("keyup", (e) => {
 });
 
 if (isMobile) {
-    window.addEventListener("devicemotion", (event) => {
-        if (!isGameActive) return;
-
-        const { x } = event.accelerationIncludingGravity;
-
-        if (x > 1) {
-            player.x -= player.speed;
-        } else if (x < -1) {
-            player.x += player.speed;
-        }
-
-        player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
-    });
-
     canvas.addEventListener("click", () => {
         if (isGameActive) {
             createBullet();

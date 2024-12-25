@@ -1,0 +1,314 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #152853;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#instructionsScreen {
+    text-align: center;
+    background-color: #435fa8;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 600px;
+    margin-top: 10px;
+
+}
+
+#instructionsScreen h1 {
+    font-size: 50px;
+    color: #ca7e1a;
+    margin-bottom: 20px;
+    margin-top: -10px;
+
+}
+
+.gallery {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 30px;
+}
+.gallery-content {
+    text-align: center;
+    flex: 1;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+
+}
+
+.gallery-image {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+
+.gallery-text {
+    margin-top: 5px;
+    font-size: 20px;
+    line-height: 1.6;
+    max-width: 90%;
+    height: 100px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.instructions-text{
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.hidden {
+    display: none;
+}
+
+.arrow {
+    background-color: rgb(109, 136, 209);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.arrow:hover {
+    background-color: rgb(202, 126, 26);
+}
+
+.arrow.left {
+    position: absolute;
+    left: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.arrow.right {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.instructions-content h2 {
+    font-size: 37px;
+    color: #ca7e1a;
+    margin-bottom: 15px;
+}
+
+.instructions-content ul {
+    list-style: none;
+    padding: 0;
+    font-size: 18px;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.instructions-content ul li {
+    margin: 10px 0;
+}
+
+.instructions-content ul li strong {
+    color: #ff4500;
+}
+.key {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #1a1a1a;
+    background-color: #e0e0e0;
+    border: 1px solid #c0c0c0;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.7);
+    text-align: center;
+    min-width: 50px;
+    user-select: none;
+}
+
+/* Для длинных клавиш (например, Medzerník) */
+.key.long {
+    min-width: 100px; /* Увеличенная ширина */
+}
+
+/* Список клавиш */
+.keyboard-controls {
+    list-style-type: none; /* Убираем стандартные маркеры списка */
+    padding: 0;
+    font-size: 18px;
+    line-height: 1.8; /* Увеличиваем межстрочный интервал для удобства */
+}
+.key_t {
+    font-family: 'BeerMoney', sans-serif; /* Укажите нужный шрифт */
+    font-size: 25px; /* Размер текста */
+    color: #ffffff; /* Цвет текста */
+    margin-left: 10px; /* Отступ для выравнивания */
+    line-height: 1.5; /* Межстрочный интервал */
+}
+
+.keyboard-controls li {
+    margin: 10px 0;
+}
+.indicators {
+    display: flex;
+    flex-direction: column; /* Размещаем индикаторы вертикально */
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 55px; /* Расположение индикаторов справа от галереи */
+    top: 50%; /* Центрируем индикаторы вертикально */
+    transform: translateY(-50%); /* Сдвигаем вниз на половину высоты */
+}
+
+.indicator {
+    width: 20px;
+    height: 20px;
+    margin: 5px 0;
+    background-color: #ccc;
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e87a2c;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+
+#instructionsScreen {
+    position: relative; /* Относительное позиционирование */
+}
+#backButton {
+    position: absolute;
+    top: 20px; /* Расстояние от верхнего края */
+    right: 20px; /* Расстояние от правого края */
+    padding: 10px 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #6f872a;
+    border: none;
+    border-radius: 50px / 25px; /* Скругленный ромб */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень для объема */
+}
+
+#backButton:hover {
+    background-color: #ca7e1a; /* Меняем цвет при наведении */
+    transform: scale(1.1); /* Увеличиваем кнопку при наведении */
+}
+
+#backButton:active {
+    transform: scale(0.95); /* Легкое сжатие при нажатии */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Уменьшаем тень */
+}
+
+
+/* Кнопка "START" */
+#startButton {
+    padding: 15px 30px;
+    font-size: 20px;
+    color: white;
+    background-color: #ff4500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 100%; /* Позиция кнопки, измените по необходимости */
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+#startButton:hover {
+    background-color: #ff6347;
+}
+
+/* Подключаем Arizonia-Regular */
+@font-face {
+    font-family: 'Arizonia';
+    src: url('../fonts/Arizonia-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BeerMoney';
+    src: url('../fonts/beer money.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TMVinogradRegular';
+    src: url('../fonts/TMVinograd-Regular.ttf') format('truetype'),
+    url('../fonts/TMVinograd-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TMVinogradOblique';
+    src: url('../fonts/TMVinograd-Oblique.ttf') format('truetype'),
+    url('../fonts/TMVinograd-Oblique.otf') format('opentype');
+    font-weight: normal;
+    font-style: oblique;
+}
+
+h1 {
+    font-family: 'TMVinogradOblique', sans-serif;
+}
+
+p {
+    font-family: 'BeerMoney', sans-serif;
+}
+
+h2 {
+    font-family: 'Arizonia', sans-serif;
+}
+
+i {
+    font-family: 'TMVinogradOblique', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .arrow.left {
+        left: -30px;
+    }
+
+    .arrow.right {
+        right: -30px;
+    }
+
+    #instructionsScreen {
+        width: 90%;
+    }
+}
