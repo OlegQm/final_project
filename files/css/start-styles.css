@@ -1,88 +1,191 @@
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
-#startScreen {
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    background-image: url("/files/images/s_2.png");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-transform: uppercase;
+}
+
+#endGamePopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+}
+
+#popup button {
+    margin: 5px;
+}
+
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    transition: all 0.3s ease-in-out;
-}
-
-/* Логотип */
-#startImage {
-    max-width: 50%;
-    height: auto;
-    z-index: 1;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease-in-out;
-}
-
-#startImage:hover {
-    transform: scale(1.05);
-}
-
-#startButton, #instructionsButton {
     font-family: Arial, sans-serif;
+    background-color: #000;
+    color: white;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+button {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#enemyCounterContainer {
     font-size: 20px;
-    width: 200px;
-    height: 60px;
     color: white;
     text-align: center;
+    margin-bottom: 10px;
+}
+
+canvas {
+    width: 80vw; 
+    max-width: 500px;
+    aspect-ratio: 4 / 5;
+    border: 2px solid white;
+    background-color: black;
+}
+
+@media (max-width: 600px) {
+    canvas {
+        aspect-ratio: 4 / 7;
+    }
+}
+
+#pauseButton {
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#pauseButton:hover {
+    background-color: #ddd;
+}
+
+#pauseModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1009;
+}
+
+#pauseModal.hidden {
+    display: none;
+}
+
+#pauseModal .modal-content {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#resumeButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#resumeButton:hover {
+    background-color: #ddd;
+}
+
+#gameContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
-    border-radius: 10px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.arrowButton {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    color: #000;
+    font-size: 20px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin: 10px 0;
-    z-index: 1;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
 }
 
-#startButton {
-    background-color: #ff4500;
+.arrowButton:hover {
+    background-color: #ddd;
 }
 
-#startButton:hover {
-    background-color: #ff6347;
-    transform: scale(1.05);
+#leftArrow {
+    margin-right: 10px;
 }
 
-#instructionsButton {
-    background-color: #99b350;
-}
-
-#instructionsButton:hover {
-    background-color: #748f26;
-    transform: scale(1.05);
-}
-
-@media (min-width: 1200px) {
-    #startImage {
-        max-width: 35%;
-    }
+#rightArrow {
+    margin-left: 10px;
 }
 
 @media (max-width: 768px) {
-    #startImage {
-        max-width: 60%;
-    }
-
-    #startButton, #instructionsButton {
-        width: 180px;
-        height: 50px;
-        font-size: 16px;
+    .arrowButton {
+        display: none;
     }
 }

@@ -31,16 +31,16 @@ nextLevelButton.disabled = true;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 const playerImg = new Image();
-playerImg.src = "files/images/player.jpg";
+playerImg.src = "../images/player.jpg";
 
 const enemyImg = new Image();
-enemyImg.src = "files/images/enemy.jpg";
+enemyImg.src = "../images/enemy.jpg";
 
 const bulletImg = new Image();
-bulletImg.src = "files/images/bullet.jpg";
+bulletImg.src = "../images/bullet.jpg";
 
 const bossImg = new Image();
-bossImg.src = "files/images/boss.jpg";
+bossImg.src = "../images/boss.jpg";
 
 const enemyCounter = document.getElementById("enemyCounter");
 
@@ -273,7 +273,7 @@ function getStyledDifficultyElement(difficulty) {
 
 async function loadLevelConfig() {
     try {
-        const response = await fetch("files/pages/levels-settings/tasks.json");
+        const response = await fetch("levels-settings/tasks.json");
         const data = await response.json();
 
         if (levelsCompleted.length >= totalLevelsToPlay) {
