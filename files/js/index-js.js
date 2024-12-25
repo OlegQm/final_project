@@ -39,6 +39,9 @@ enemyImg.src = "files/images/enemy.jpg";
 const bulletImg = new Image();
 bulletImg.src = "files/images/bullet.jpg";
 
+const bossImg = new Image();
+bossImg.src = "files/images/boss.jpg";
+
 const enemyCounter = document.getElementById("enemyCounter");
 
 const endGamePopup = document.createElement("div");
@@ -86,11 +89,41 @@ function createBoss() {
     bossHealth = boss.health;
 }
 
+function isOverlapping(x, y, width, height, entities) {
+    for (const entity of entities) {
+        if (
+            x < entity.x + entity.width &&
+            x + width > entity.x &&
+            y < entity.y + entity.height &&
+            y + height > entity.y
+        ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function teleportEnemy(enemy) {
+    let newX, newY;
+    const maxAttempts = 100;
+    let attempts = 0;
+
+    do {
+        newX = Math.random() * (canvas.width - enemy.width - 60) + 30;
+        newY = Math.random() * (canvas.height / 2 - enemy.height);
+        attempts++;
+    } while (isOverlapping(newX, newY, enemy.width, enemy.height, enemies) && attempts < maxAttempts);
+
+    if (attempts < maxAttempts) {
+        enemy.x = newX;
+        enemy.y = newY;
+    }
+}
+
 function drawBoss() {
     if (!boss) return;
 
-    ctx.fillStyle = "red";
-    ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
+    ctx.drawImage(bossImg, boss.x, boss.y, boss.width, boss.height);
 
     ctx.fillStyle = "white";
     ctx.font = "20px Arial";
@@ -98,26 +131,54 @@ function drawBoss() {
 }
 
 function spawnEnemies() {
-    if (!boss || boss.spawnCooldown > 0) return;
+    if (!boss || boss.spawnCooldown > 0 || enemies.length >= 20) return;
 
-    const enemyCount = currentLevelConfig.n;
+    const enemyCount = Math.min(currentLevelConfig.n, 20 - enemies.length);
+    const enemyWidth = 30;
+
     for (let i = 0; i < enemyCount; i++) {
-        const enemyX = Math.random() * (canvas.width - 30);
-        const enemyY = Math.random() * (canvas.height / 2);
-        enemies.push({
-            x: enemyX,
-            y: enemyY,
-            width: 30,
-            height: 30,
-            speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002),
-        });
+        let attempts = 0;
+        let newEnemy;
+
+        do {
+            const enemyX = Math.random() * (canvas.width - 4 * enemyWidth) + 2 * enemyWidth;
+            const enemyY = Math.random() * (canvas.height / 2 - enemyWidth);
+
+            newEnemy = {
+                x: enemyX,
+                y: enemyY,
+                width: enemyWidth,
+                height: enemyWidth,
+                speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002),
+            };
+
+            attempts++;
+        } while (attempts < 10 && enemies.some(enemy => checkOverlap(enemy, newEnemy)));
+
+        if (attempts < 10) {
+            enemies.push(newEnemy);
+        }
     }
 
     boss.spawnCooldown = 300;
 }
 
+function checkOverlap(enemy1, enemy2) {
+    return (
+        enemy1.x < enemy2.x + enemy2.width &&
+        enemy1.x + enemy1.width > enemy2.x &&
+        enemy1.y < enemy2.y + enemy2.height &&
+        enemy1.y + enemy1.height > enemy2.y
+    );
+}
+
 function updateBoss() {
     if (!boss) return;
+
+    boss.x += currentLevelConfig.bossSpeed * enemyDirection;
+    if (boss.x <= 0 || boss.x + boss.width >= canvas.width) {
+        enemyDirection *= -1;
+    }
 
     if (boss.spawnCooldown > 0) {
         boss.spawnCooldown--;
@@ -128,6 +189,7 @@ function updateBoss() {
         enemies = [];
         isGameActive = false;
         showPopup("Boss defeated! You win!");
+        nextLevelButton.disabled = false;
         saveProgress();
     }
 }
@@ -303,6 +365,7 @@ playAgainButton.addEventListener("click", () => {
     popup.classList.add("hidden");
     pauseButton.disabled = false;
     killedEnemiesCount = 0;
+    enemies = [];
     resetGame();
     isGameActive = true;
     gameLoop();
@@ -495,28 +558,56 @@ function update() {
     if (boss) {
         updateBoss();
         spawnEnemies();
-    } else {
-        let hitWall = false;
+    }
 
+    let hitWall = false;
+
+    enemies.forEach((enemy, eIndex) => {
+        enemy.x += enemyDirection * enemy.speed;
+
+        if (
+            boss &&
+            enemy.x < boss.x + boss.width &&
+            enemy.x + enemy.width > boss.x &&
+            enemy.y < boss.y + boss.height &&
+            enemy.y + enemy.height > boss.y
+        ) {
+            teleportEnemy(enemy);
+        }
+
+        for (let otherIndex = 0; otherIndex < enemies.length; otherIndex++) {
+            if (eIndex !== otherIndex) {
+                const otherEnemy = enemies[otherIndex];
+                if (
+                    isOverlapping(
+                        enemy.x,
+                        enemy.y,
+                        enemy.width,
+                        enemy.height,
+                        [otherEnemy]
+                    )
+                ) {
+                    teleportEnemy(enemy);
+                    break;
+                }
+            }
+        }
+
+        if (enemy.x <= 0 || enemy.x + enemy.width >= canvas.width) {
+            hitWall = true;
+        }
+    });
+
+    if (hitWall) {
+        enemyDirection *= -1;
         enemies.forEach((enemy) => {
-            enemy.x += enemyDirection * enemy.speed;
-
-            if (enemy.x <= 0 || enemy.x + enemy.width >= canvas.width) {
-                hitWall = true;
+            enemy.y += currentLevelConfig.enemyDropSpeed || 20;
+            if (enemy.y + enemy.height >= canvas.height - player.height) {
+                isGameActive = false;
+                nextLevelButton.disabled = true;
+                showPopup("Game Over");
             }
         });
-
-        if (hitWall) {
-            enemyDirection *= -1;
-            enemies.forEach((enemy) => {
-                enemy.y += currentLevelConfig.enemyDropSpeed || 20;
-                if (enemy.y + enemy.height >= canvas.height - player.height) {
-                    isGameActive = false;
-                    nextLevelButton.disabled = true;
-                    showPopup("Game Over");
-                }
-            });
-        }
     }
 
     checkCollisions();
@@ -560,19 +651,32 @@ function createBullet() {
 
 function checkCollisions() {
     bullets.forEach((bullet, bIndex) => {
-        enemies.forEach((enemy, eIndex) => {
-            if (
-                boss &&
-                bullet.x < boss.x + boss.width &&
-                bullet.x + bullet.width > boss.x &&
-                bullet.y < boss.y + boss.height &&
-                bullet.y + bullet.height > boss.y
-            ) {
-                bullets.splice(bIndex, 1);
-                bossHealth--;
-                return;
+        let bulletRemoved = false;
+    
+        if (
+            boss &&
+            bullet.x < boss.x + boss.width &&
+            bullet.x + bullet.width > boss.x &&
+            bullet.y < boss.y + boss.height &&
+            bullet.y + bullet.height > boss.y
+        ) {
+            bullets.splice(bIndex, 1);
+            bossHealth--;
+            bulletRemoved = true;
+    
+            if (bossHealth <= 0) {
+                boss = null;
+                isGameActive = false;
+                showPopup("Boss defeated! You win!");
+                nextLevelButton.disabled = false;
+                saveProgress();
             }
-
+            return;
+        }
+    
+        if (bulletRemoved) return;
+    
+        enemies.forEach((enemy, eIndex) => {
             if (
                 bullet.x < enemy.x + enemy.width &&
                 bullet.x + bullet.width > enemy.x &&
@@ -584,30 +688,15 @@ function checkCollisions() {
                 killedEnemiesCount++;
                 updateEnemyCounter();
 
-                if (enemies.length === 0) {
+                if (enemies.length === 0 && !boss) {
                     isGameActive = false;
-                    pauseButton.disabled = true;
                     showPopup("You Win!");
                     nextLevelButton.disabled = false;
                     saveProgress();
                 }
             }
         });
-    });
-
-    enemies.forEach((enemy) => {
-        if (
-            player.x < enemy.x + enemy.width &&
-            player.x + player.width > enemy.x &&
-            player.y < enemy.y + enemy.height &&
-            player.y + player.height > enemy.y
-        ) {
-            isGameActive = false;
-            nextLevelButton.disabled = true;
-            pauseButton.disabled = true;
-            showPopup("Game Over");
-        }
-    });
+    });    
 }
 
 function updateEnemyCounter() {

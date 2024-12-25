@@ -176,8 +176,9 @@
             "rows": 3,
             "cols": 5,
             "n": 5,
-            "health": 10,
-            "enemySpeed": 2
+            "health": 15,
+            "enemySpeed": 3,
+            "bossSpeed": 1
         }
     ]
 }
