@@ -10,9 +10,9 @@
 
 <body>
 <div id="instructionsScreen">
-    <h1>Inštrukcie k hre</h1>
+    <h1>Inštrukcie k hre     <button id="backButton" onclick="window.location.href='start.html'">Späť na začiatok</button>
+    </h1>
 
-    <!-- Галерея предыстории -->
     <div class="gallery">
         <button class="arrow left" onclick="changeSlide(-1)">&#10094;</button>
         <div class="gallery-content">
@@ -48,22 +48,41 @@
             <p class="gallery-text">Ale Jerry má rozum, prefíkanosť a obrovskú vôľu dokázať, že aj ten najmenší môže byť najsilnejší.
             </p>
         </div>
+
+        <div class="gallery-content hidden">
+            <p class="instructions-text">Ty si Tom, múdry a šikovný kocúr, ktorému už lezie na nervy chaos, ktorý v dome spôsobuje Jerry. Tvojím cieľom je zbaviť sa ho, aby si znovu získal pokoj a rešpekt v dome. Toto je boj o kontrolu nad domom a musíš dokázať, že Tom je skutočný pán domu. Ukáž, kto je tu šéf!
+               Veľa šťastia, a nech myšiak vie, že ťa nemá podceňovať! </p>
+            <div class="instructions-content">
+                <h2>Ovládanie hry:</h2>
+                <ul class="keyboard-controls">
+                    <li><span class="key">←</span> <span class="key">→</span><span class="key_t"> - Pohyb do strán</span></li>
+                    <li><span class="key">P</span><span class="key_t"> - Pauza</span></li>
+                    <li><span class="key">C</span> <span class="key_t">- Pokračovanie v hre</span></li>
+                    <li><span class="key long">Medzerník</span> <span class="key_t">- Streľba</span></li>
+                </ul>
+            </div>
+            <button id="startButton" onclick="window.location.href='index.html'">START</button>
+
+        </div>
+
         <button class="arrow right" onclick="changeSlide(1)">&#10095;</button>
     </div>
 
-    <!-- Секция управления игрой -->
-    <div class="instructions-content">
-        <h2>Ovládanie hry:</h2>
-        <ul>
-            <li><strong>W, A, S, D</strong> - Pohyb</li>
-            <li><strong>Šípky doľava a doprava</strong> - Pohyb do strán</li>
-            <li><strong>P</strong> - Pauza</li>
-            <li><strong>C</strong> - Pokračovanie v hre</li>
-            <li><strong>Medzerník</strong> - Streľba</li>
-        </ul>
+    <div class="indicators">
+        <span class="indicator active" onclick="setSlide(0)"></span>
+        <span class="indicator" onclick="setSlide(1)"></span>
+        <span class="indicator" onclick="setSlide(2)"></span>
+        <span class="indicator" onclick="setSlide(3)"></span>
+        <span class="indicator" onclick="setSlide(4)"></span>
+        <span class="indicator" onclick="setSlide(5)"></span>
+        <span class="indicator" onclick="setSlide(6)"></span>
+        <span class="indicator" onclick="setSlide(7)"></span>
+        <span class="indicator" onclick="setSlide(8)"></span>
+
     </div>
 
-    <button id="backButton" onclick="window.location.href='start.html'">Späť na začiatok</button>
+
+
 </div>
 
 <script>
@@ -76,6 +95,8 @@
         slides[currentSlide].classList.remove('hidden');
     }
 </script>
+<script src="files/js/instructions.js"></script>
+
 </body>
 
 </html>
