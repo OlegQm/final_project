@@ -24,7 +24,9 @@ let killedEnemiesCount = 0;
 let currentLevelConfig;
 let currentDifficulty = "low";
 let currentLevelIndex = 0;
-const totalLevelsToPlay = 5;
+let boss;
+let bossHealth;
+const totalLevelsToPlay = 6;
 nextLevelButton.disabled = true;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
@@ -64,6 +66,70 @@ function restartGame() {
     player = null;
     endGamePopup.classList.add("hidden");
     startButton.classList.remove("hidden");
+}
+
+function createBoss() {
+    const bossWidth = currentLevelConfig.cols * 30;
+    const bossHeight = currentLevelConfig.rows * 30;
+    const bossX = (canvas.width - bossWidth) / 2;
+    const bossY = 50;
+
+    boss = {
+        x: bossX,
+        y: bossY,
+        width: bossWidth,
+        height: bossHeight,
+        health: currentLevelConfig.health,
+        spawnCooldown: 0,
+    };
+
+    bossHealth = boss.health;
+}
+
+function drawBoss() {
+    if (!boss) return;
+
+    ctx.fillStyle = "red";
+    ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
+
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText(`Boss HP: ${bossHealth}`, boss.x + boss.width / 2 - 40, boss.y - 10);
+}
+
+function spawnEnemies() {
+    if (!boss || boss.spawnCooldown > 0) return;
+
+    const enemyCount = currentLevelConfig.n;
+    for (let i = 0; i < enemyCount; i++) {
+        const enemyX = Math.random() * (canvas.width - 30);
+        const enemyY = Math.random() * (canvas.height / 2);
+        enemies.push({
+            x: enemyX,
+            y: enemyY,
+            width: 30,
+            height: 30,
+            speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002),
+        });
+    }
+
+    boss.spawnCooldown = 300;
+}
+
+function updateBoss() {
+    if (!boss) return;
+
+    if (boss.spawnCooldown > 0) {
+        boss.spawnCooldown--;
+    }
+
+    if (bossHealth <= 0) {
+        boss = null;
+        enemies = [];
+        isGameActive = false;
+        showPopup("Boss defeated! You win!");
+        saveProgress();
+    }
 }
 
 document.getElementById("restartGameButton").addEventListener("click", restartGame);
@@ -118,6 +184,7 @@ function getRandomNumberFromArray(array) {
 function getStyledDifficultyElement(difficulty) {
     const span = document.createElement("span");
     span.style.fontWeight = "bold";
+    console.log("DIFF", difficulty);
     switch (difficulty) {
         case "low":
             span.style.color = "green";
@@ -130,6 +197,10 @@ function getStyledDifficultyElement(difficulty) {
         case "hard":
             span.style.color = "red";
             span.textContent = " hard";
+            break;
+        case "boss":
+            span.style.color = "red";
+            span.textContent = " boss";
             break;
         default:
             span.textContent = "Unknown";
@@ -149,12 +220,28 @@ async function loadLevelConfig() {
         }
 
         let possibleDifficulties = [];
-        if (currentLevelIndex < 2) {
-            possibleDifficulties = ["low", "medium"];
-        } else if (currentLevelIndex < 4) {
-            possibleDifficulties = ["medium", "hard"];
-        } else {
-            possibleDifficulties = ["hard"];
+        switch (currentLevelIndex) {
+            case 0:
+                possibleDifficulties = ["low"];
+                break;
+            case 1:
+                possibleDifficulties = ["low", "medium"];
+                break;
+            case 2:
+                possibleDifficulties = ["medium"];
+                break;
+            case 3:
+                possibleDifficulties = ["medium", "hard"];
+                break;
+            case 4:
+                possibleDifficulties = ["hard"];
+                break;
+            case 5:
+                possibleDifficulties = ["boss"];
+                break;
+            default:
+                possibleDifficulties = ["boss"];
+                break;
         }
 
         currentDifficulty = getRandomNumberFromArray(possibleDifficulties);
@@ -196,7 +283,9 @@ function loadProgress() {
 function saveProgress() {
     if (!levelsCompleted.includes(currentLevelConfig.id)) {
         levelsCompleted.push(currentLevelConfig.id);
-        currentLevelIndex++;
+        if (currentLevelIndex != totalLevelsToPlay - 1) {
+            currentLevelIndex++;
+        }
         const progress = {
             levelsCompleted: levelsCompleted,
             currentLevelIndex: currentLevelIndex,
@@ -243,7 +332,7 @@ nextLevelButton.addEventListener("click", async () => {
 });
 
 function handleMotion(event) {
-    if (!isGameActive) return;
+    if (!isGameActive || isPaused) return;
 
     const x = event.accelerationIncludingGravity?.x || 0;
 
@@ -311,7 +400,11 @@ startButton.addEventListener("click", async () => {
 function resetGame() {
     resizeCanvas();
     createPlayer();
-    createEnemies();
+    if (currentLevelIndex === totalLevelsToPlay - 1) {
+        createBoss();
+    } else {
+        createEnemies();
+    }
     bullets = [];
     killedEnemiesCount = 0;
     updateEnemyCounter();
@@ -347,7 +440,8 @@ function createEnemies() {
     let cols = currentLevelConfig.cols;
 
     if (isMobile && window.innerWidth >= 281 && window.innerWidth <= 768) {
-        cols = currentLevelConfig.mobileEnemies || cols;
+        cols = currentLevelConfig.mobileEnemiesCols || cols;
+        rows = currentLevelConfig.mobileEnemiesRows || rows;
     }
 
     for (let row = 0; row < rows; row++) {
@@ -398,26 +492,31 @@ function update() {
         }
     });
 
-    let hitWall = false;
+    if (boss) {
+        updateBoss();
+        spawnEnemies();
+    } else {
+        let hitWall = false;
 
-    enemies.forEach((enemy) => {
-        enemy.x += enemyDirection * enemy.speed;
-
-        if (enemy.x <= 0 || enemy.x + enemy.width >= canvas.width) {
-            hitWall = true;
-        }
-    });
-
-    if (hitWall) {
-        enemyDirection *= -1;
         enemies.forEach((enemy) => {
-            enemy.y += currentLevelConfig.enemyDropSpeed || 20;
-            if (enemy.y + enemy.height >= canvas.height - player.height) {
-                isGameActive = false;
-                nextLevelButton.disabled = true;
-                showPopup("Game Over");
+            enemy.x += enemyDirection * enemy.speed;
+
+            if (enemy.x <= 0 || enemy.x + enemy.width >= canvas.width) {
+                hitWall = true;
             }
         });
+
+        if (hitWall) {
+            enemyDirection *= -1;
+            enemies.forEach((enemy) => {
+                enemy.y += currentLevelConfig.enemyDropSpeed || 20;
+                if (enemy.y + enemy.height >= canvas.height - player.height) {
+                    isGameActive = false;
+                    nextLevelButton.disabled = true;
+                    showPopup("Game Over");
+                }
+            });
+        }
     }
 
     checkCollisions();
@@ -437,6 +536,10 @@ function draw() {
     enemies.forEach((enemy) => {
         ctx.drawImage(enemyImg, enemy.x, enemy.y, enemy.width, enemy.height);
     });
+
+    if (boss) {
+        drawBoss();
+    }
 }
 
 function createBullet() {
@@ -458,6 +561,18 @@ function createBullet() {
 function checkCollisions() {
     bullets.forEach((bullet, bIndex) => {
         enemies.forEach((enemy, eIndex) => {
+            if (
+                boss &&
+                bullet.x < boss.x + boss.width &&
+                bullet.x + bullet.width > boss.x &&
+                bullet.y < boss.y + boss.height &&
+                bullet.y + bullet.height > boss.y
+            ) {
+                bullets.splice(bIndex, 1);
+                bossHealth--;
+                return;
+            }
+
             if (
                 bullet.x < enemy.x + enemy.width &&
                 bullet.x + bullet.width > enemy.x &&
