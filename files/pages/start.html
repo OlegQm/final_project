@@ -21,11 +21,19 @@
     <button id="rightArrow" class="arrowButton">&#10095;</button>
 </div>
 
-<div id="popup" class="hidden">
-    <p id="popupMessage"></p>
-    <button id="playAgainButton">Play Again</button>
+<!-- Popup for Win -->
+<div id="winPopup" class="hidden">
+    <h2>Congratulations! You Win!</h2>
+    <img id="winImage" src="../images/victory.png" alt="Victory Image">
     <button id="nextLevelButton">Next Level</button>
 </div>
+
+<div id="losePopup" class="hidden">
+    <h2>Game Over!</h2>
+    <img id="loseImage" src="../images/defeat.png" alt="Defeat Image">
+    <button id="playAgainButton">Play Again</button>
+</div>
+
 
 <script src="../js/start-js.js"></script>
 </body>

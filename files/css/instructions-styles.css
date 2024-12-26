@@ -25,7 +25,7 @@ body {
 
 #instructionsScreen h1 {
     font-size: 50px;
-    color: #ca7e1a;
+    color: #f19f34;
     margin-bottom: 20px;
     margin-top: -10px;
 
@@ -116,7 +116,7 @@ body {
 
 .instructions-content h2 {
     font-size: 37px;
-    color: #ca7e1a;
+    color: #f19f34;
     margin-bottom: 15px;
 }
 
@@ -233,25 +233,34 @@ body {
 
 /* Кнопка "START" */
 #startButton {
-    padding: 15px 30px;
+    background-color: #ff4500; /* Ярко-красный цвет */
+    color: white; /* Белый текст */
+    font-family: Arial, sans-serif;
     font-size: 20px;
-    color: white;
-    background-color: #ff4500;
+    width: 200px; /* Фиксированная ширина */
+    height: 60px; /* Фиксированная высота */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px; /* Закругленные углы */
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    position: absolute;
-    top: 100%; /* Позиция кнопки, измените по необходимости */
-    left: 50%;
-    transform: translate(-50%, -50%);
-
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Анимация при взаимодействии */
+    margin: 20px auto; /* Центрирование кнопки */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Тень */
 }
 
 #startButton:hover {
-    background-color: #ff6347;
+    background-color: #ff6347; /* Светло-красный при наведении */
+    transform: scale(1.05); /* Увеличение кнопки */
 }
 
+#startButton:active {
+    background-color: #e63939; /* Темно-красный при нажатии */
+    transform: scale(0.95); /* Легкое уменьшение */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Уменьшение тени */
+}
 /* Подключаем Arizonia-Regular */
 @font-face {
     font-family: 'Arizonia';
@@ -300,6 +309,36 @@ i {
 }
 
 @media (max-width: 768px) {
+    #backButton {
+        top: 10px; /* Уменьшаем расстояние сверху */
+        right: 10px; /* Уменьшаем расстояние справа */
+        padding: 8px 8px; /* Сокращаем размеры кнопки */
+        font-size: 14px; /* Уменьшаем шрифт */
+    }
+    .indicators {
+        right: 10px; /* Перемещаем ближе к центру */
+        top: auto; /* Сбрасываем центровку по вертикали */
+        bottom: 20px; /* Перемещаем вниз */
+        flex-direction: row; /* Горизонтальная ориентация */
+        gap: 5px; /* Расстояние между индикаторами */
+    }
+    .indicator {
+        width: 15px; /* Уменьшаем размеры индикаторов */
+        height: 15px;
+    }
+    .gallery-content {
+        min-height: auto; /* Убираем фиксированную высоту */
+        flex-direction: column; /* Изображение и текст по вертикали */
+        padding: 10px; /* Добавляем отступы */
+    }
+    .gallery-image {
+        max-width: 100%; /* Заполняем ширину экрана */
+        max-height: 50vh; /* Ограничиваем высоту изображения */
+    }
+    .gallery-text {
+        font-size: 18px; /* Уменьшаем шрифт */
+    }
+
     .arrow.left {
         left: -30px;
     }
@@ -310,5 +349,16 @@ i {
 
     #instructionsScreen {
         width: 90%;
+        max-width: 400px; /* Ограничение максимальной ширины */
+        margin: 0 auto; /* Центрирование */
+    }
+    #instructionsScreen h1 {
+        font-size: 36px; /* Уменьшение размера текста */
+        margin-top: 20px; /* Добавление дополнительного отступа сверху */
+    }
+    #startButton {
+        width: 90%; /* Более широкая кнопка на маленьких экранах */
+        font-size: 1rem; /* Уменьшение размера шрифта */
+        padding: 0.8rem 1.5rem; /* Уменьшение отступов */
     }
 }

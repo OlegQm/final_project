@@ -31,16 +31,16 @@ nextLevelButton.disabled = true;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 const playerImg = new Image();
-playerImg.src = "../images/player.jpg";
+playerImg.src = "../images/player.png";
 
 const enemyImg = new Image();
-enemyImg.src = "../images/enemy.jpg";
+enemyImg.src = "../images/enemy.png";
 
 const bulletImg = new Image();
 bulletImg.src = "../images/bullet.jpg";
 
 const bossImg = new Image();
-bossImg.src = "../images/boss.jpg";
+bossImg.src = "../images/boss.png";
 
 const enemyCounter = document.getElementById("enemyCounter");
 
@@ -356,10 +356,26 @@ function saveProgress() {
     }
 }
 
-function showPopup(message) {
-    popupMessage.textContent = message;
-    popup.classList.remove("hidden");
+function showPopup(type, message, imageUrl) {
+    if (type === "win") {
+        const winPopup = document.getElementById("winPopup");
+        const winMessage = winPopup.querySelector("h2");
+        const winImage = document.getElementById("winImage");
+
+        winMessage.textContent = message;
+        winImage.src = imageUrl;
+        winPopup.classList.remove("hidden");
+    } else if (type === "lose") {
+        const losePopup = document.getElementById("losePopup");
+        const loseMessage = losePopup.querySelector("h2");
+        const loseImage = document.getElementById("loseImage");
+
+        loseMessage.textContent = message;
+        loseImage.src = imageUrl;
+        losePopup.classList.remove("hidden");
+    }
 }
+
 
 playAgainButton.addEventListener("click", () => {
     popup.classList.add("hidden");
@@ -483,10 +499,10 @@ window.addEventListener("resize", resizeCanvas);
 
 function createPlayer() {
     player = {
-        x: canvas.width / 2 - 15,
-        y: canvas.height - 30,
-        width: 30,
-        height: 30,
+        x: canvas.width / 2 - 75,
+        y: canvas.height - 120,
+        width: 150,
+        height: 120,
         speed: currentLevelConfig.playerSpeed || Math.max(2, canvas.width * 0.007),
     };
 }
@@ -604,9 +620,9 @@ function update() {
             enemy.y += currentLevelConfig.enemyDropSpeed || 20;
             if (enemy.y + enemy.height >= canvas.height - player.height) {
                 isGameActive = false;
-                nextLevelButton.disabled = true;
-                showPopup("Game Over");
+                showPopup("lose", "Game Over!", "../images/defeat.png");
             }
+
         });
     }
 
@@ -663,7 +679,7 @@ function checkCollisions() {
             bullets.splice(bIndex, 1);
             bossHealth--;
             bulletRemoved = true;
-    
+
             if (bossHealth <= 0) {
                 boss = null;
                 isGameActive = false;
@@ -690,10 +706,11 @@ function checkCollisions() {
 
                 if (enemies.length === 0 && !boss) {
                     isGameActive = false;
-                    showPopup("You Win!");
+                    showPopup("win", "Congratulations! You Win!", "../images/victory.png");
                     nextLevelButton.disabled = false;
                     saveProgress();
                 }
+
             }
         });
     });    
@@ -759,3 +776,27 @@ if (isMobile) {
         }
     });
 }
+document.getElementById("playAgainButton").addEventListener("click", () => {
+    document.getElementById("losePopup").classList.add("hidden");
+    resetGame();
+    isGameActive = true; // Ensure game state is active
+    gameLoop(); // Restart the game loop
+});
+
+
+document.getElementById("nextLevelButton").addEventListener("click", async () => {
+    document.getElementById("winPopup").classList.add("hidden");
+
+    // Check if all levels are completed
+    if (currentLevelIndex >= totalLevelsToPlay - 1) {
+        handleZeroLevels();
+        return;
+    }
+
+    currentLevelIndex++; // Proceed to the next level
+    saveProgress(); // Save game progress
+    await loadLevelConfig(); // Load the next level configuration
+    resetGame(); // Reset game state for the new level
+    isGameActive = true; // Reactivate the game
+    gameLoop(); // Start the game
+});
