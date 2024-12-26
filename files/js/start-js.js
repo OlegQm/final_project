@@ -26,9 +26,11 @@ let currentDifficulty = "low";
 let currentLevelIndex = 0;
 let boss;
 let bossHealth;
+let data;
 const totalLevelsToPlay = 6;
 nextLevelButton.disabled = true;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const newLevelNeededIndex = 999999;
 
 const playerImg = new Image();
 playerImg.src = "../images/player.jpg";
@@ -48,7 +50,7 @@ const endGamePopup = document.createElement("div");
 endGamePopup.id = "endGamePopup";
 endGamePopup.classList.add("hidden");
 endGamePopup.innerHTML = `
-    <p>Game Over! All levels completed.</p>
+    <p>Game Over! All levels completed and Boss defeated.</p>
     <button id="restartGameButton">Restart</button>
 `;
 document.body.appendChild(endGamePopup);
@@ -187,10 +189,8 @@ function updateBoss() {
     if (bossHealth <= 0) {
         boss = null;
         enemies = [];
-        isGameActive = false;
-        showPopup("Boss defeated! You win!");
-        nextLevelButton.disabled = false;
         saveProgress();
+        handleZeroLevels();
     }
 }
 
@@ -208,10 +208,85 @@ pauseModal.classList.add("hidden");
 pauseModal.innerHTML = `
     <div class="pause-modal-content">
         <p>Game Paused</p>
-        <button id="resumeButton">Continue</button>
+        <button id="resumeButton" class="pauseWindowButton">Continue</button>
+        <button id="nextLevelWindowButton" class="pauseWindowButton">Next level</button>
+        <button id="previousLevelButton" class="pauseWindowButton">Previous level</button>
     </div>
 `;
 document.body.appendChild(pauseModal);
+
+function getPreviousLevel() {
+    const levelsCompletedLength = levelsCompleted.length;
+    if (!levelsCompletedLength) {
+        return -1;
+    }
+    if (!levelsCompleted.includes(currentLevelConfig.id)) {
+        return levelsCompleted[levelsCompletedLength - 1];
+    }
+    const currentLevelIndex = levelsCompleted.indexOf(currentLevelConfig.id);
+    if (currentLevelIndex !== 0) {
+        return levelsCompleted[currentLevelIndex - 1];
+    }
+    return -1;
+}
+
+function getNextLevel() {
+    const levelsCompletedLength = levelsCompleted.length;
+    if (!levelsCompletedLength || !levelsCompleted.includes(currentLevelConfig.id)) {
+        return -1;
+    }
+    const currentLevelIndex = levelsCompleted.indexOf(currentLevelConfig.id);
+    if (currentLevelIndex === levelsCompletedLength - 1) {
+        return newLevelNeededIndex;
+    }
+    return levelsCompleted[currentLevelIndex + 1];
+}
+
+const resumeButton = document.getElementById("resumeButton");
+const nextLevelWindowButton = document.getElementById("nextLevelWindowButton");
+const previousLevelButton = document.getElementById("previousLevelButton");
+
+resumeButton.addEventListener("click", resumeTheGame);
+nextLevelWindowButton.addEventListener("click", handleNextLevelWindowButton);
+previousLevelButton.addEventListener("click", handlePreviousLevelWindowButton);
+
+async function handleNextLevelWindowButton() {
+    const nextLevel = getNextLevel();
+    isPaused = false;
+    pauseModal.classList.add("hidden");
+    pauseButton.disabled = false;
+    if (nextLevel != newLevelNeededIndex) {
+        await setupNextLevel(nextLevel);
+    } else {
+        await loadLevelConfig();
+    }
+    resetGame();
+    if (levelsCompleted[levelsCompleted.length - 1] === 16 
+        && currentLevelConfig.id === 16) {
+        return;
+    }
+    gameLoop();
+}
+
+async function handlePreviousLevelWindowButton() {
+    const previousLevel = getPreviousLevel();
+    if (previousLevel === -1) {
+        return;
+    }
+
+    isPaused = false;
+    pauseModal.classList.add("hidden");
+    pauseButton.disabled = false;
+
+    enemies = [];
+    bullets = [];
+    boss = null;
+
+    await setupPreviousLevel(previousLevel);
+    resetGame();
+    gameLoop();
+}
+
 
 function resumeTheGame() {
     if (isPaused) {
@@ -222,11 +297,21 @@ function resumeTheGame() {
     }
 }
 
-document.getElementById("resumeButton").addEventListener("click", resumeTheGame);
-
 function pauseTheGame() {
     if (!isPaused) {
         isPaused = true;
+        if (getNextLevel() !== -1) {
+            nextLevelWindowButton.disabled = false;
+        } else {
+            nextLevelWindowButton.disabled = true;
+        }
+
+        if (getPreviousLevel() !== -1) {
+            previousLevelButton.disabled = false;
+        } else {
+            previousLevelButton.disabled = true;
+        }
+
         pauseModal.classList.remove("hidden");
         pauseButton.disabled = true;
     }
@@ -246,7 +331,6 @@ function getRandomNumberFromArray(array) {
 function getStyledDifficultyElement(difficulty) {
     const span = document.createElement("span");
     span.style.fontWeight = "bold";
-    console.log("DIFF", difficulty);
     switch (difficulty) {
         case "low":
             span.style.color = "green";
@@ -271,10 +355,54 @@ function getStyledDifficultyElement(difficulty) {
     return span;
 }
 
-async function loadLevelConfig() {
-    try {
+async function setupNextLevel(nextLevelIndex) {
+    const difficulties = ["low", "medium", "hard", "boss"];
+    const difficultyNumber = Math.floor((nextLevelIndex - 1) / 5)
+    const difficulty = difficulties[difficultyNumber];
+
+    if (!data) {
         const response = await fetch("levels-settings/tasks.json");
-        const data = await response.json();
+        data = await response.json();
+    }
+
+    const levels = data[difficulty];
+    currentLevelConfig = levels.find((level) => level.id === nextLevelIndex);
+
+    const existingDifficulty = document.getElementById("difficultyLabel");
+    if (existingDifficulty && existingDifficulty.parentNode === gameTitle) {
+        gameTitle.removeChild(existingDifficulty);
+    }
+    gameTitle.textContent = "";
+    gameTitle.appendChild(getStyledDifficultyElement(difficulty));
+}
+
+async function setupPreviousLevel(previousLevelIndex) {
+    const difficulties = ["low", "medium", "hard", "boss"];
+    const difficultyNumber = Math.floor((previousLevelIndex - 1) / 5)
+    const difficulty = difficulties[difficultyNumber];
+
+    if (!data) {
+        const response = await fetch("levels-settings/tasks.json");
+        data = await response.json();
+    }
+
+    const levels = data[difficulty];
+    currentLevelConfig = levels.find((level) => level.id === previousLevelIndex);
+
+    const existingDifficulty = document.getElementById("difficultyLabel");
+    if (existingDifficulty && existingDifficulty.parentNode === gameTitle) {
+        gameTitle.removeChild(existingDifficulty);
+    }
+    gameTitle.textContent = "";
+    gameTitle.appendChild(getStyledDifficultyElement(difficulty));
+}
+
+async function loadLevelConfig(nextLevelIndex=-1) {
+    try {
+        if (!data) {
+            const response = await fetch("levels-settings/tasks.json");
+            data = await response.json();
+        }
 
         if (levelsCompleted.length >= totalLevelsToPlay) {
             handleZeroLevels();
@@ -305,21 +433,30 @@ async function loadLevelConfig() {
                 possibleDifficulties = ["boss"];
                 break;
         }
+        let randomLevelId;
+        let levels;
+        if (nextLevelIndex == -1) {
+            currentDifficulty = getRandomNumberFromArray(possibleDifficulties);
+            levels = data[currentDifficulty];
 
-        currentDifficulty = getRandomNumberFromArray(possibleDifficulties);
-        const levels = data[currentDifficulty];
+            const unfinishedLevels = excludeElements(
+                levels.map((level) => level.id),
+                levelsCompleted
+            );
 
-        const unfinishedLevels = excludeElements(
-            levels.map((level) => level.id),
-            levelsCompleted
-        );
+            if (unfinishedLevels.length === 0) {
+                handleZeroLevels();
+                return;
+            }
 
-        if (unfinishedLevels.length === 0) {
-            handleZeroLevels();
-            return;
+            randomLevelId = getRandomNumberFromArray(unfinishedLevels);
+        } else {
+            randomLevelId = nextLevelIndex;
+            const difficulties = ["low", "medium", "hard", "boss"];
+            const difficultyNumber = Math.floor((nextLevelIndex - 1) / 5)
+            currentDifficulty = difficulties[difficultyNumber];
+            levels = data[currentDifficulty];
         }
-
-        const randomLevelId = getRandomNumberFromArray(unfinishedLevels);
         currentLevelConfig = levels.find((level) => level.id === randomLevelId);
 
         const existingDifficulty = document.getElementById("difficultyLabel");
@@ -367,7 +504,6 @@ playAgainButton.addEventListener("click", () => {
     killedEnemiesCount = 0;
     enemies = [];
     resetGame();
-    isGameActive = true;
     gameLoop();
 });
 
@@ -379,18 +515,25 @@ function handleZeroLevels() {
 }
 
 nextLevelButton.addEventListener("click", async () => {
+    const currentWindowLevelIndex = levelsCompleted.indexOf(currentLevelConfig.id);
+    let nextLevelIndex = -1;
+    if (currentWindowLevelIndex === -1) {
+        return;
+    }
     popup.classList.add("hidden");
     pauseButton.disabled = false;
-
-    if (levelsCompleted.length >= totalLevelsToPlay) {
+    const completedLevelsLength = levelsCompleted.length;
+    if (completedLevelsLength >= totalLevelsToPlay) {
         handleZeroLevels();
         return;
     }
-
-    saveProgress();
-    await loadLevelConfig();
+    if (currentWindowLevelIndex !== completedLevelsLength - 1) {
+        nextLevelIndex = levelsCompleted[currentWindowLevelIndex + 1];
+    } else {
+        saveProgress();
+    }
+    await loadLevelConfig(nextLevelIndex);
     resetGame();
-    isGameActive = true;
     gameLoop();
 });
 
@@ -461,9 +604,12 @@ startButton.addEventListener("click", async () => {
 });
 
 function resetGame() {
+    boss = null;
+    enemies = [];
     resizeCanvas();
     createPlayer();
-    if (currentLevelIndex === totalLevelsToPlay - 1) {
+    console.log("Level position:", currentLevelConfig.id);
+    if (currentLevelConfig.id === 16) {
         createBoss();
     } else {
         createEnemies();
@@ -606,6 +752,7 @@ function update() {
                 isGameActive = false;
                 nextLevelButton.disabled = true;
                 showPopup("Game Over");
+                pauseButton.disabled = true;
             }
         });
     }
@@ -666,10 +813,8 @@ function checkCollisions() {
     
             if (bossHealth <= 0) {
                 boss = null;
-                isGameActive = false;
-                showPopup("Boss defeated! You win!");
-                nextLevelButton.disabled = false;
                 saveProgress();
+                handleZeroLevels();
             }
             return;
         }
@@ -691,6 +836,7 @@ function checkCollisions() {
                 if (enemies.length === 0 && !boss) {
                     isGameActive = false;
                     showPopup("You Win!");
+                    pauseButton.disabled = true;
                     nextLevelButton.disabled = false;
                     saveProgress();
                 }

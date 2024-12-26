@@ -134,18 +134,20 @@ canvas {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-#resumeButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #000;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.pause-modal-content {
+    text-align: center;
 }
 
-#resumeButton:hover {
+.pauseWindowButton {
+    display: block;
+    width: 200px;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.pauseWindowButton:hover {
     background-color: #ddd;
 }
 
