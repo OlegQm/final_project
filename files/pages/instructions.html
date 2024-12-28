@@ -5,46 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inštrukcie k hre</title>
-    <link rel="stylesheet" href="files/css/instructions-styles.css">
+    <link rel="stylesheet" href="../css/instructions-styles.css">
 </head>
 
 <body>
 <div id="instructionsScreen">
-    <h1>Inštrukcie k hre     <button id="backButton" onclick="window.location.href='start.html'">Späť na začiatok</button>
+    <h1>Inštrukcie k hre     <button id="backButton" onclick="window.location.href='../../index.html'">Späť na začiatok</button>
     </h1>
 
     <div class="gallery">
         <button class="arrow left" onclick="changeSlide(-1)">&#10094;</button>
         <div class="gallery-content">
-            <img src="files/images/1.webp" alt="Slide 1" class="gallery-image">
+            <img src="../images/1.webp" alt="Slide 1" class="gallery-image">
             <p class="gallery-text">Kedysi dávno v útulnom dome žila šťastná rodina, v ktorej bol Tom, lenivý, ale ambiciózny kocúr, miláčikom domácich. Vždy sa považoval za pána domu.</p>
         </div>
         <div class="gallery-content hidden">
-            <img src="files/images/2.webp" alt="Slide 2" class="gallery-image">
+            <img src="../images/2.webp" alt="Slide 2" class="gallery-image">
             <p class="gallery-text">Ale jedného dňa sa v komore objavila malá, no mimoriadne prefíkaná myška Jerry, ktorá si povedala, že dom je ideálne miesto pre jej nové útočisko.</p>
         </div>
         <div class="gallery-content hidden">
-            <img src="files/images/3.webp" alt="Slide 3" class="gallery-image">
+            <img src="../images/3.webp" alt="Slide 3" class="gallery-image">
             <p class="gallery-text">Spočiatku Jerry jedol iba omrvinky a ukrýval sa vo svojej nore. No postupom času mu narástla chuť a začal kradnúť jedlo priamo zo stola.</p>
         </div>
         <div class="gallery-content hidden">
-            <img src="files/images/4.webp" alt="Slide 4" class="gallery-image">
+            <img src="../images/4.webp" alt="Slide 4" class="gallery-image">
             <p class="gallery-text">Tom, cítiac ohrozenie svojho statusu obľúbenca, sa rozhodol Jerryho chytiť, aby si znovu získal rešpekt domácich.</p>
         </div>
         <div class="gallery-content hidden">
-            <img src="files/images/5.webp" alt="Slide 5" class="gallery-image">
+            <img src="../images/5.webp" alt="Slide 5" class="gallery-image">
             <p class="gallery-text">Jerry sa však ukázal nielen ako šikovný, ale aj ako skutočný majster trikov! Namiesto úteku začal vymýšľať prešibané pasce, čím premenil dom na bojisko nekonečného súboja.</p>
         </div>
         <div class="gallery-content hidden">
-            <img src="files/images/6.webp" alt="Slide 6" class="gallery-image">
+            <img src="../images/6.webp" alt="Slide 6" class="gallery-image">
             <p class="gallery-text">Teraz nie sú Tom a Jerry iba kocúr a myš. Sú to rivali, ktorí neustále súperia o nadvládu v dome.</p>
         </div>
         <div class="gallery-content hidden">
-            <img src="files/images/7.webp" alt="Slide 7" class="gallery-image">
+            <img src="../images/7.webp" alt="Slide 7" class="gallery-image">
             <p class="gallery-text">Tom má všetko: šikovnosť, silu a plnú krabicu trikov. </p>
         </div>
         <div class="gallery-content hidden">
-            <img src="files/images/8.webp" alt="Slide 8" class="gallery-image">
+            <img src="../images/8.webp" alt="Slide 8" class="gallery-image">
             <p class="gallery-text">Ale Jerry má rozum, prefíkanosť a obrovskú vôľu dokázať, že aj ten najmenší môže byť najsilnejší.
             </p>
         </div>
@@ -61,7 +61,7 @@
                     <li><span class="key long">Medzerník</span> <span class="key_t">- Streľba</span></li>
                 </ul>
             </div>
-            <button id="startButton" onclick="window.location.href='index.html'">START</button>
+            <button id="startButton" onclick="window.location.href='start.html'">START</button>
 
         </div>
 
@@ -80,9 +80,6 @@
         <span class="indicator" onclick="setSlide(8)"></span>
 
     </div>
-
-
-
 </div>
 
 <script>
@@ -95,7 +92,7 @@
         slides[currentSlide].classList.remove('hidden');
     }
 </script>
-<script src="files/js/instructions.js"></script>
+<script src="../js/instructions.js"></script>
 
 </body>
 

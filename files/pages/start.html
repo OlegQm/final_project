@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Invaders Game</title>
+    <link rel="stylesheet" href="../css/start-styles.css">
+</head>
+
+<body>
+<h1 id="gameTitle">Space Invaders</h1>
+<div id="enemyCounterContainer">
+    <span>Enemies killed: </span><span id="enemyCounter">0</span>
+</div>
+
+<button id="startButton">START</button>
+<div id="gameContainer">
+    <button id="leftArrow" class="arrowButton">&#10094;</button>
+    <canvas id="gameCanvas"></canvas>
+    <button id="rightArrow" class="arrowButton">&#10095;</button>
+</div>
+
+<div id="popup" class="hidden">
+    <p id="popupMessage"></p>
+    <button id="playAgainButton">Play Again</button>
+    <button id="nextLevelButton">Next Level</button>
+</div>
+
+<script src="../js/start-js.js"></script>
+</body>
+
+</html>

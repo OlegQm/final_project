@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("../images/bg_2.webp");
+    background-size: cover;
+    display: flex;
+    flex-direction: column; /* Располагаем элементы по вертикали */
+    align-items: center;
+    height: 100vh;
+    justify-content: center; /* Центрируем содержимое */
+    gap: 20px; /* Отступ между кнопкой и уровнями */
+}
+
+.back-button {
+    padding: 10px 20px;
+    font-family:'BeerMoney', sans-serif;
+    font-size: 50px;
+    color: white;
+    background: #92b336;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+.back-button:hover {
+    background: #e64a19;
+}
+
+.level-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 столбцов по умолчанию */
+    gap: 15px;
+    max-width: 600px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.level-button {
+    width: 100px;
+    height: 100px;
+    background: #d9f99d;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+    position: relative; /* Для замков */
+}
+
+.level-button.locked {
+    background: #ccc;
+    color: #777;
+    cursor: not-allowed;
+    position: relative; /* Позиционирование для замка */
+}
+
+.level-button.locked::after {
+    content: '\1F512'; /* Unicode для замка */
+    font-size: 24px;
+    color: #555;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* Адаптивный дизайн для экранов шириной до 768px */
+@media (max-width: 768px) {
+    .level-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 столбца */
+        gap: 10px;
+    }
+
+    .level-button {
+        width: 80px;
+        height: 80px;
+        font-size: 16px;
+    }
+
+    .back-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+/* Адаптивный дизайн для экранов шириной до 480px */
+@media (max-width: 480px) {
+    .level-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 столбца */
+        gap: 8px;
+    }
+
+    .level-button {
+        width: 70px;
+        height: 70px;
+        font-size: 14px;
+    }
+
+    .back-button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
+
+
+/* Подключаем Arizonia-Regular */
+@font-face {
+    font-family: 'Arizonia';
+    src: url('../fonts/Arizonia-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BeerMoney';
+    src: url('../fonts/beer money.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

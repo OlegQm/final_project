@@ -2,32 +2,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Invaders Game</title>
-    <link rel="stylesheet" href="files/css/index-styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Screen</title>
+  <link rel="stylesheet" href="files/css/index-styles.css">
 </head>
 
 <body>
-<h1 id="gameTitle">Space Invaders</h1>
-<div id="enemyCounterContainer">
-    <span>Enemies killed: </span><span id="enemyCounter">0</span>
-</div>
+<div id="startScreen">
 
-<button id="startButton">START</button>
-<div id="gameContainer">
-    <button id="leftArrow" class="arrowButton">&#10094;</button>
-    <canvas id="gameCanvas"></canvas>
-    <button id="rightArrow" class="arrowButton">&#10095;</button>
-</div>
+  <img src="files/images/s_1.png" alt="Logo" id="startImage">
 
-<div id="popup" class="hidden">
-    <p id="popupMessage"></p>
-    <button id="playAgainButton">Play Again</button>
-    <button id="nextLevelButton">Next Level</button>
-</div>
+  <button id="startButton" onclick="window.location.href='files/pages/start.html'">START</button>
+  <button id="instructionsButton" onclick="window.location.href='files/pages/instructions.html'">INSTRUCTIONS</button>
 
-<script src="files/js/index-js.js"></script>
+</div>
 </body>
 
 </html>

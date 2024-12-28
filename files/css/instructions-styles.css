@@ -25,9 +25,10 @@ body {
 
 #instructionsScreen h1 {
     font-size: 50px;
-    color: #ca7e1a;
-    margin-bottom: 20px;
-    margin-top: -10px;
+    color: #f6920e;
+    text-align: center; /* По центру на больших экранах */
+    margin-bottom: 10px;
+    margin-top: 20px;
 
 }
 
@@ -66,7 +67,7 @@ body {
     font-size: 20px;
     line-height: 1.6;
     max-width: 90%;
-    height: 100px;
+    height: 150px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -181,8 +182,8 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 55px; /* Расположение индикаторов справа от галереи */
-    top: 50%; /* Центрируем индикаторы вертикально */
+    right: 35px; /* Расположение индикаторов справа от галереи */
+    top: 35%; /* Центрируем индикаторы вертикально */
     transform: translateY(-50%); /* Сдвигаем вниз на половину высоты */
 }
 
@@ -207,7 +208,7 @@ body {
 }
 #backButton {
     position: absolute;
-    top: 20px; /* Расстояние от верхнего края */
+    top: 10px; /* Расстояние от верхнего края */
     right: 20px; /* Расстояние от правого края */
     padding: 10px 10px;
     font-size: 16px;
@@ -242,7 +243,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     position: absolute;
-    top: 100%; /* Позиция кнопки, измените по необходимости */
+    bottom: -13%; /* Размещаем кнопку снизу */
     left: 50%;
     transform: translate(-50%, -50%);
 
@@ -298,17 +299,54 @@ h2 {
 i {
     font-family: 'TMVinogradOblique', sans-serif;
 }
+@media (min-width: 769px) {
+    .indicators {
+        flex-direction: column; /* Переключаем на вертикальное расположение */
+        bright: 10px; /* Располагаем индикаторы справа */
+        top: 50%; /* По центру экрана */
+        transform: translateY(-50%);
+    }
+}
 
 @media (max-width: 768px) {
+    .indicators {
+        flex-direction: column; /* Переключаем на вертикальное расположение */
+        right: 10px; /* Располагаем индикаторы справа */
+        top: 30%; /* По центру экрана */
+        transform: translateY(-50%);
+    }
+
     .arrow.left {
-        left: -30px;
+        left: -20px; /* Уменьшаем отступы для маленьких экранов */
     }
 
     .arrow.right {
-        right: -30px;
+        right: -20px;
+    }
+
+    .indicators {
+        right: 10px; /* Уменьшаем отступ справа */
     }
 
     #instructionsScreen {
-        width: 90%;
+        width: 90%; /* Увеличиваем ширину инструкции для маленьких экранов */
     }
+
+    #backButton {
+        font-size: 15px; /* Уменьшаем шрифт */
+        padding: 8px 10px;
+
+    }
+
+    #startButton {
+        font-size: 16px; /* Уменьшаем размер текста */
+        padding: 10px 20px;
+    }
+
+    .indicator {
+        width: 17px; /* Уменьшаем размер индикаторов */
+        height: 17px;
+        font-size: 20px; /* Уменьшаем шрифт в индикаторах */
+    }
+
 }
