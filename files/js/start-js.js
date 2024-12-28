@@ -33,23 +33,27 @@ const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 const newLevelNeededIndex = 999999;
 
 const playerImg = new Image();
-playerImg.src = "../images/player.jpg";
+playerImg.src = "../images/player.png";
 
 const enemyImg = new Image();
-enemyImg.src = "../images/enemy.jpg";
+enemyImg.src = "../images/enemy.png";
 
 const bulletImg = new Image();
-bulletImg.src = "../images/bullet.jpg";
+bulletImg.src = "../images/bullet.png";
 
 const bossImg = new Image();
-bossImg.src = "../images/boss.jpg";
+bossImg.src = "../images/boss.png";
 
 const enemyCounter = document.getElementById("enemyCounter");
 
 const endGamePopup = document.createElement("div");
 endGamePopup.id = "endGamePopup";
 endGamePopup.classList.add("hidden");
+
 endGamePopup.innerHTML = `
+<div class="fireworks fireworks-left"></div>
+    <div class="fireworks fireworks-right"></div>
+    <img src="../images/final.png" alt="Game Over" style="width: 60%; height: auto; margin-bottom: 10px;">
     <p>Game Over! All levels completed and Boss defeated.</p>
     <button id="restartGameButton">Restart</button>
 `;
@@ -255,7 +259,7 @@ async function handleNextLevelWindowButton() {
     isPaused = false;
     pauseModal.classList.add("hidden");
     pauseButton.disabled = false;
-    if (nextLevel != newLevelNeededIndex) {
+    if (nextLevel !== newLevelNeededIndex) {
         await setupNextLevel(nextLevel);
     } else {
         await loadLevelConfig();
@@ -435,7 +439,7 @@ async function loadLevelConfig(nextLevelIndex=-1) {
         }
         let randomLevelId;
         let levels;
-        if (nextLevelIndex == -1) {
+        if (nextLevelIndex === -1) {
             currentDifficulty = getRandomNumberFromArray(possibleDifficulties);
             levels = data[currentDifficulty];
 
@@ -629,10 +633,10 @@ window.addEventListener("resize", resizeCanvas);
 
 function createPlayer() {
     player = {
-        x: canvas.width / 2 - 15,
-        y: canvas.height - 30,
-        width: 30,
-        height: 30,
+        x: canvas.width / 2 - 75,
+        y: canvas.height - 120,
+        width: 150,
+        height: 120,
         speed: currentLevelConfig.playerSpeed || Math.max(2, canvas.width * 0.007),
     };
 }
@@ -751,7 +755,7 @@ function update() {
             if (enemy.y + enemy.height >= canvas.height - player.height) {
                 isGameActive = false;
                 nextLevelButton.disabled = true;
-                showPopup("Game Over");
+                showPopup("Game Over" ,"Game Over");
                 pauseButton.disabled = true;
             }
         });
@@ -785,8 +789,8 @@ function createBullet() {
         bullets.push({
             x: player.x + player.width / 2 - 2,
             y: player.y,
-            width: 4,
-            height: 10,
+            width: 20,
+            height: 20,
             speed: Math.max(4, canvas.height * 0.01),
         });
         canShoot = false;
@@ -835,7 +839,7 @@ function checkCollisions() {
 
                 if (enemies.length === 0 && !boss) {
                     isGameActive = false;
-                    showPopup("You Win!");
+                    showPopup("You Win!", "You Win!");
                     pauseButton.disabled = true;
                     nextLevelButton.disabled = false;
                     saveProgress();
@@ -905,3 +909,35 @@ if (isMobile) {
         }
     });
 }
+
+function showPopup(message, outcome) {
+
+    popupMessage.textContent = message;
+
+    const popupImage = document.createElement("img");
+    popupImage.style.width = "100%";
+    popupImage.style.height = "auto";
+    popupImage.style.marginTop = "10px";
+
+    // Устанавливаем изображение и соответствующий класс для иконки
+    if (outcome === "You Win!") {
+        popupImage.src = "../images/victory.png";
+
+        popupImage.classList.add("win-icon");
+        popupImage.classList.remove("lose-icon");
+    } else if (outcome === "Game Over") {
+        popupImage.src = "../images/defeat.png";
+        popupImage.classList.add("lose-icon");
+        popupImage.classList.remove("win-icon");
+    }
+
+    const existingImage = popup.querySelector("img");
+    if (existingImage) {
+        popup.removeChild(existingImage);
+    }
+    popup.appendChild(popupImage);
+    popup.classList.remove("hidden");
+}
+
+
+

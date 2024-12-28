@@ -33,8 +33,8 @@
 }
 
 #startButton, #instructionsButton {
-    font-family: Arial, sans-serif;
-    font-size: 20px;
+    font-family:'BeerMoney', sans-serif;
+    font-size: 40px;
     width: 200px;
     height: 60px;
     color: white;
@@ -85,4 +85,19 @@
         height: 50px;
         font-size: 16px;
     }
+}
+
+/* Подключаем Arizonia-Regular */
+@font-face {
+    font-family: 'Arizonia';
+    src: url('../fonts/Arizonia-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BeerMoney';
+    src: url('../fonts/beer money.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
