@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inštrukcie k hre</title>
     <link rel="stylesheet" href="../css/instructions-styles.css">
+    <link rel="icon" type="image/x-icon" href="../images/54.png">
+
 </head>
 
 <body>
 <div id="instructionsScreen">
-    <h1>Inštrukcie k hre     <button id="backButton" onclick="window.location.href='../../index.html'">Späť na začiatok</button>
+    <h1>Inštrukcie k hre<button id="backButton" onclick="window.location.href='../../index.html'">Späť na začiatok</button>
     </h1>
 
     <div class="gallery">
-        <button class="arrow left" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="arrow left">&#10094;</button>
         <div class="gallery-content">
             <img src="../images/1.webp" alt="Slide 1" class="gallery-image">
             <p class="gallery-text">Kedysi dávno v útulnom dome žila šťastná rodina, v ktorej bol Tom, lenivý, ale ambiciózny kocúr, miláčikom domácich. Vždy sa považoval za pána domu.</p>
@@ -50,7 +52,6 @@
         </div>
 
         <div class="gallery-content hidden">
-            <p class="instructions-text">Ty si Tom, múdry a šikovný kocúr, ktorému už lezie na nervy chaos, ktorý v dome spôsobuje Jerry. Toto je boj o kontrolu nad domom a musíš dokázať, že si skutočný pán domu. Ukáž, kto je tu šéf!</p>
             <div class="instructions-content">
                 <h2>Ovládanie hry:</h2>
                 <p class="instructions-text">Po stlačení tlačidla "Pause" sa zobrazia tlačidlá na návrat na domovskú stránku a pohyb po úrovniach.</p>
@@ -61,11 +62,12 @@
                     <li><span class="key long">Space</span> <span class="key_t">- Streľba</span></li>
                 </ul>
             </div>
+            <p class="instructions-text">Ty si Tom, múdry a šikovný kocúr, ktorému už lezie na nervy chaos, ktorý v dome spôsobuje Jerry. Toto je boj o kontrolu nad domom a musíš dokázať, že si skutočný pán domu. Ukáž, kto je tu šéf!</p>
             <button id="startButton" onclick="window.location.href='start.html'">START</button>
 
         </div>
 
-        <button class="arrow right" onclick="changeSlide(1)">&#10095;</button>
+        <button class="arrow right">&#10095;</button>
     </div>
 
     <div class="indicators">

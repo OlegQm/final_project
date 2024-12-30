@@ -64,7 +64,6 @@ body {
     font-size: 1.25rem;
     line-height: 1.6;
     max-width: 90%;
-    height: 9.375rem;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -186,20 +185,27 @@ body {
     transform: translateY(-50%);
 }
 
+.indicator.active {
+    background-color: #e87a2c;
+    color: #fff;
+
+}
+
 .indicator {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 2rem;
+    height: 2rem;
     margin: 0.3125rem 0;
     background-color: #ccc;
     border-radius: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #e87a2c;
-    font-size: 0.875rem;
+    color: #cbcbcb;
+    font-size: 1rem;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
+
 
 #instructionsScreen {
     position: relative;
@@ -320,11 +326,14 @@ i {
     }
 
     .indicators {
-        right: 1.25rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 1rem;
     }
 
     #instructionsScreen {
-        width: 90%;
+        padding: 1rem;
     }
 
     #backButton {
@@ -339,9 +348,66 @@ i {
     }
 
     .indicator {
-        width: 1.0625rem;
-        height: 1.0625rem;
-        font-size: 1.25rem;
+        width: 1rem;
+        height: 1rem;
+        margin: 0 0.25rem;
+    }
+
+    .gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .gallery-content {
+        margin-top: 2rem;
+    }
+
+    .indicators {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .indicator {
+        width: 1rem;
+        height: 1rem;
+        margin: 0.25rem 0 0.25rem 0.25rem;
+    }
+
+    .instructions-content {
+        padding-right: 3rem;
+    }
+
+    .key {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: 2rem;
+    }
+
+    .key_t {
+        font-size: 1rem;
+        margin-left: 0.5rem;
+        white-space: normal;
+    }
+
+    .keyboard-controls li {
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .keyboard-controls {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .arrow {
+        display: none;
     }
 }
 
