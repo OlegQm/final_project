@@ -1,36 +1,50 @@
+let currentSlide = 0;
+let slides, indicators;
+
 document.addEventListener('DOMContentLoaded', () => {
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.gallery-content');
-    const indicators = document.querySelectorAll('.indicator');
+    slides = document.querySelectorAll('.gallery-content');
+    indicators = document.querySelectorAll('.indicator');
 
-    function changeSlide(direction) {
-        slides[currentSlide].classList.add('hidden');
-        currentSlide = (currentSlide + direction + slides.length) % slides.length;
-        slides[currentSlide].classList.remove('hidden');
-    }
-
-    function resetSlides() {
-        slides.forEach((slide) => slide.classList.add('hidden'));
-        indicators.forEach((indicator) => indicator.textContent = '');
-    }
-
-    function updateSlide(index) {
-        resetSlides();
-        slides[index].classList.remove('hidden');
-        indicators[index].textContent = index + 1;
-        currentSlide = index;
-    }
-
-    function setSlide(index) {
-        updateSlide(index);
-    }
+    updateSlide(0);
 
     indicators.forEach((indicator, index) => {
+        indicator.textContent = index + 1;
         indicator.addEventListener('click', () => setSlide(index));
     });
+    updateSlide(0);
 
     document.querySelector('.arrow.left').addEventListener('click', () => changeSlide(-1));
     document.querySelector('.arrow.right').addEventListener('click', () => changeSlide(1));
-
-    updateSlide(0);
 });
+
+function changeSlide(direction) {
+    const totalSlides = slides.length;
+
+    slides[currentSlide].classList.add('hidden');
+    indicators[currentSlide].classList.remove('active');
+
+    currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+
+    slides[currentSlide].classList.remove('hidden');
+    indicators[currentSlide].classList.add('active');
+}
+
+function setSlide(index) {
+    slides[currentSlide].classList.add('hidden');
+    indicators[currentSlide].classList.remove('active');
+
+    currentSlide = index;
+
+    slides[currentSlide].classList.remove('hidden');
+    indicators[currentSlide].classList.add('active');
+}
+
+function updateSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.toggle('hidden', i !== index);
+    });
+    indicators.forEach((indicator, i) => {
+        indicator.classList.toggle('active', i === index);
+    });
+    currentSlide = index;
+}
