@@ -5,11 +5,11 @@ const popupMessage = document.getElementById("popupMessage");
 const playAgainButton = document.getElementById("playAgainButton");
 const nextLevelButton = document.getElementById("nextLevelButton");
 const startButton = document.getElementById("startButton");
-let gameTitle = document.getElementById("gameTitle");
 const enemyCounterContainer = document.getElementById("enemyCounterContainer");
 const leftArrow = document.getElementById("leftArrow");
 const rightArrow = document.getElementById("rightArrow");
 
+let gameTitle = document.getElementById("gameTitle");
 let isGameActive = false;
 let isPaused = false;
 let player;
@@ -188,13 +188,13 @@ function spawnEnemies() {
         do {
             const enemyX = Math.random() * (canvas.width - 4 * enemyWidth) + 2 * enemyWidth;
             const enemyY = Math.random() * (canvas.height / 2 - enemyWidth);
-
+            const enemySpeed = isMobile ? currentLevelConfig.mobileEnemySpeed : currentLevelConfig.enemySpeed;
             newEnemy = {
                 x: enemyX,
                 y: enemyY,
                 width: enemyWidth,
                 height: enemyWidth,
-                speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002),
+                speed: enemySpeed || Math.max(1, canvas.width * 0.002),
             };
 
             attempts++;
@@ -716,7 +716,7 @@ function createEnemies() {
         cols = currentLevelConfig.mobileEnemiesCols || cols;
         rows = currentLevelConfig.mobileEnemiesRows || rows;
     }
-
+    const enemySpeed = isMobile ? currentLevelConfig.mobileEnemySpeed : currentLevelConfig.enemySpeed;
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
             enemies.push({
@@ -724,7 +724,7 @@ function createEnemies() {
                 y: startY + row * gap,
                 width: enemyWidth,
                 height: enemyHeight,
-                speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002),
+                speed: enemySpeed || Math.max(1, canvas.width * 0.002),
             });
         }
     }
@@ -811,7 +811,8 @@ function update() {
     if (hitWall) {
         enemyDirection *= -1;
         enemies.forEach((enemy) => {
-            enemy.y += currentLevelConfig.enemyDropSpeed || 20;
+            const dropSpeed = isMobile ? currentLevelConfig.mobileEnemyDropSpeed : currentLevelConfig.enemyDropSpeed;
+            enemy.y += dropSpeed || 20;
             if (enemy.y + enemy.height >= canvas.height - player.height) {
                 isGameActive = false;
                 nextLevelButton.disabled = true;

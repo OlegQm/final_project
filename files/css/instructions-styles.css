@@ -14,22 +14,20 @@ body {
 #instructionsScreen {
     text-align: center;
     background-color: #435fa8;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0rem 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
     width: 80%;
-    max-width: 600px;
-    margin-top: 10px;
-
+    max-width: 37.5rem;
+    margin-top: 0.625rem;
 }
 
 #instructionsScreen h1 {
-    font-size: 50px;
+    font-size: 3.125rem;
     color: #f6920e;
-    text-align: center; /* По центру на больших экранах */
-    margin-bottom: 10px;
-    margin-top: 20px;
-
+    text-align: center;
+    margin-bottom: 0.625rem;
+    margin-top: 1.25rem;
 }
 
 .gallery {
@@ -37,37 +35,36 @@ body {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
 }
+
 .gallery-content {
     text-align: center;
     flex: 1;
-    min-height: 600px;
+    min-height: 37.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;;
+    justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
     position: relative;
-
 }
 
 .gallery-image {
     max-width: 80%;
     max-height: 80%;
     object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 0.625rem;
+    box-shadow: 0rem 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
 }
 
-
 .gallery-text {
-    margin-top: 5px;
-    font-size: 20px;
+    margin-top: 0.3125rem;
+    font-size: 1.25rem;
     line-height: 1.6;
     max-width: 90%;
-    height: 150px;
+    height: 9.375rem;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -75,13 +72,14 @@ body {
     text-align: center;
 }
 
-.instructions-text{
-    font-size: 20px;
+.instructions-text {
+    font-size: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
+
 .hidden {
     display: none;
 }
@@ -90,9 +88,9 @@ body {
     background-color: rgb(109, 136, 209);
     color: white;
     border: none;
-    font-size: 24px;
+    font-size: 1.5rem;
     cursor: pointer;
-    padding: 10px;
+    padding: 0.625rem;
     border-radius: 50%;
     transition: background-color 0.3s ease;
 }
@@ -103,145 +101,146 @@ body {
 
 .arrow.left {
     position: absolute;
-    left: -50px;
+    left: -3.125rem;
     top: 50%;
     transform: translateY(-50%);
 }
 
 .arrow.right {
     position: absolute;
-    right: -50px;
+    right: -3.125rem;
     top: 50%;
     transform: translateY(-50%);
 }
 
 .instructions-content h2 {
-    font-size: 37px;
+    font-size: 2.3125rem;
     color: #ca7e1a;
-    margin-bottom: 15px;
+    margin-bottom: 0.9375rem;
 }
 
 .instructions-content ul {
     list-style: none;
     padding: 0;
-    font-size: 18px;
+    font-size: 1.125rem;
     text-align: left;
     margin: 0 auto;
-    max-width: 500px;
+    max-width: 31.25rem;
 }
 
 .instructions-content ul li {
-    margin: 10px 0;
+    margin: 0.625rem 0;
 }
 
 .instructions-content ul li strong {
     color: #ff4500;
 }
+
 .key {
     display: inline-block;
-    padding: 10px 15px;
-    margin: 5px;
-    font-size: 16px;
+    padding: 0.625rem 0.9375rem;
+    margin: 0.3125rem;
+    font-size: 1rem;
     font-weight: bold;
     color: #1a1a1a;
     background-color: #e0e0e0;
-    border: 1px solid #c0c0c0;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.7);
+    border: 0.0625rem solid #c0c0c0;
+    border-radius: 0.3125rem;
+    box-shadow: 0.125rem 0.125rem 0.3125rem rgba(0, 0, 0, 0.3), -0.125rem -0.125rem 0.3125rem rgba(255, 255, 255, 0.7);
     text-align: center;
-    min-width: 50px;
+    min-width: 3.125rem;
     user-select: none;
 }
 
-/* Для длинных клавиш (например, Medzerník) */
 .key.long {
-    min-width: 100px; /* Увеличенная ширина */
+    min-width: 6.25rem;
 }
 
-/* Список клавиш */
 .keyboard-controls {
-    list-style-type: none; /* Убираем стандартные маркеры списка */
+    list-style-type: none;
     padding: 0;
-    font-size: 18px;
-    line-height: 1.8; /* Увеличиваем межстрочный интервал для удобства */
+    font-size: 1.125rem;
+    line-height: 1.8;
 }
+
 .key_t {
-    font-family: 'BeerMoney', sans-serif; /* Укажите нужный шрифт */
-    font-size: 25px; /* Размер текста */
-    color: #ffffff; /* Цвет текста */
-    margin-left: 10px; /* Отступ для выравнивания */
-    line-height: 1.5; /* Межстрочный интервал */
+    font-family: 'BeerMoney', sans-serif;
+    font-size: 1.5625rem;
+    color: #ffffff;
+    margin-left: 0.625rem;
+    line-height: 1.5;
 }
 
 .keyboard-controls li {
-    margin: 10px 0;
+    margin: 0.625rem 0;
 }
+
 .indicators {
     display: flex;
-    flex-direction: column; /* Размещаем индикаторы вертикально */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 35px; /* Расположение индикаторов справа от галереи */
-    top: 35%; /* Центрируем индикаторы вертикально */
-    transform: translateY(-50%); /* Сдвигаем вниз на половину высоты */
+    right: 2.1875rem;
+    top: 35%;
+    transform: translateY(-50%);
 }
 
 .indicator {
-    width: 20px;
-    height: 20px;
-    margin: 5px 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.3125rem 0;
     background-color: #ccc;
     border-radius: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #e87a2c;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
-
 #instructionsScreen {
-    position: relative; /* Относительное позиционирование */
+    position: relative;
 }
+
 #backButton {
     position: absolute;
-    top: 10px; /* Расстояние от верхнего края */
-    right: 20px; /* Расстояние от правого края */
-    padding: 10px 10px;
-    font-size: 16px;
+    top: 0.625rem;
+    right: 1.25rem;
+    padding: 0.625rem 0.625rem;
+    font-size: 1rem;
     color: white;
     background-color: #6f872a;
     border: none;
-    border-radius: 50px / 25px; /* Скругленный ромб */
+    border-radius: 50px / 25px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень для объема */
+    box-shadow: 0rem 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
 }
 
 #backButton:hover {
-    background-color: #ca7e1a; /* Меняем цвет при наведении */
-    transform: scale(1.1); /* Увеличиваем кнопку при наведении */
+    background-color: #ca7e1a;
+    transform: scale(1.1);
 }
 
 #backButton:active {
-    transform: scale(0.95); /* Легкое сжатие при нажатии */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Уменьшаем тень */
+    transform: scale(0.95);
+    box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
 }
 
 #startButton {
-    padding: 15px 30px;
-    font-size: 20px;
+    padding: 0.9375rem 1.875rem;
+    font-size: 1.25rem;
     color: white;
     background-color: #ff4500;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
     position: relative;
-    margin: 20px auto;
+    margin: 1.25rem auto;
     display: block;
 }
 
@@ -249,7 +248,6 @@ body {
     background-color: #ff6347;
 }
 
-/* Подключаем Arizonia-Regular */
 @font-face {
     font-family: 'Arizonia';
     src: url('../fonts/Arizonia-Regular.ttf') format('truetype');
@@ -295,55 +293,96 @@ h2 {
 i {
     font-family: 'TMVinogradOblique', sans-serif;
 }
+
 @media (min-width: 769px) {
     .indicators {
-        flex-direction: column; /* Переключаем на вертикальное расположение */
-        right: 10px; /* Располагаем индикаторы справа */
-        top: 50%; /* По центру экрана */
+        flex-direction: column;
+        right: 0.625rem;
+        top: 50%;
         transform: translateY(-50%);
     }
 }
 
 @media (max-width: 768px) {
     .indicators {
-        flex-direction: column; /* Переключаем на вертикальное расположение */
-        right: 10px; /* Располагаем индикаторы справа */
-        top: 30%; /* По центру экрана */
+        flex-direction: column;
+        right: 1.25rem;
+        top: 30%;
         transform: translateY(-50%);
     }
 
     .arrow.left {
-        left: -20px; /* Уменьшаем отступы для маленьких экранов */
+        left: -2.5rem;
     }
 
     .arrow.right {
-        right: -20px;
+        right: -2.5rem;
     }
 
     .indicators {
-        right: 10px; /* Уменьшаем отступ справа */
+        right: 1.25rem;
     }
 
     #instructionsScreen {
-        width: 90%; /* Увеличиваем ширину инструкции для маленьких экранов */
+        width: 90%;
     }
 
     #backButton {
-        font-size: 15px; /* Уменьшаем шрифт */
-        padding: 8px 10px;
-
+        font-size: 0.9375rem;
+        padding: 0.5rem 0.625rem;
     }
 
     #startButton {
-        font-size: 16px;
-        padding: 10px 20px;
-        margin-top: 10px;
+        font-size: 1rem;
+        padding: 0.625rem 1.25rem;
+        margin-top: 0.625rem;
     }
 
     .indicator {
-        width: 17px; /* Уменьшаем размер индикаторов */
-        height: 17px;
-        font-size: 20px; /* Уменьшаем шрифт в индикаторах */
+        width: 1.0625rem;
+        height: 1.0625rem;
+        font-size: 1.25rem;
+    }
+}
+
+@media print {
+    body {
+        background-color: white;
+        color: black;
     }
 
+    #instructionsScreen {
+        display: block;
+    }
+
+    .gallery-content {
+        display: none;
+    }
+
+    .gallery-content:nth-of-type(9) {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .arrow,
+    #backButton,
+    .indicators,
+    #startButton {
+        display: none !important;
+    }
+
+    .gallery-content img {
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .gallery-content p {
+        font-size: 1.125rem;
+        line-height: 1.5;
+        margin: 0.625rem 0;
+    }
 }

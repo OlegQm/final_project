@@ -27,8 +27,10 @@ function openLevels() {
         levelsCompleted = progress.levelsCompleted || [];
         currentLevelIndex = progress.currentLevelIndex || 0;
     }
-    for(let i = 0; i < levelsCompleted.length; i++) {
-        modifyButton(i, "locked", "removeClass");
+    for(let i = 0; i < levelsCompleted.length + 1; i++) {
+        if (i < 6) {
+            modifyButton(i, "locked", "removeClass");
+        }
     }
 }
 

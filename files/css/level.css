@@ -4,25 +4,25 @@ body {
     background-image: url("../images/bg_2.webp");
     background-size: cover;
     display: flex;
-    flex-direction: column; /* Располагаем элементы по вертикали */
+    flex-direction: column;
     align-items: center;
     height: 100vh;
-    justify-content: center; /* Центрируем содержимое */
-    gap: 20px; /* Отступ между кнопкой и уровнями */
+    justify-content: center;
+    gap: 1.25rem;
 }
 
 .back-button {
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     font-family:'BeerMoney', sans-serif;
-    font-size: 50px;
+    font-size: 3.125rem;
     color: white;
     background: #92b336;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     cursor: pointer;
     text-transform: uppercase;
     font-weight: bold;
-    margin-bottom: 20px; /* Отступ снизу */
+    margin-bottom: 1.25rem;
 }
 
 .back-button:hover {
@@ -31,44 +31,44 @@ body {
 
 .level-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 столбцов по умолчанию */
-    gap: 15px;
-    max-width: 600px;
-    padding: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.9375rem;
+    max-width: 37.5rem;
+    padding: 0.625rem;
     background: rgba(255, 255, 255, 0.8);
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 0.9375rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
 }
 
 .level-button {
-    width: 100px;
-    height: 100px;
+    width: 6.25rem;
+    height: 6.25rem;
     background: #d9f99d;
     color: #333;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.125rem;
     text-align: center;
-    line-height: 100px;
-    border-radius: 10px;
+    line-height: 6.25rem;
+    border-radius: 0.625rem;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center; /* Горизонтальное центрирование */
-    align-items: center; /* Вертикальное центрирование */
-    position: relative; /* Для замков */
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .level-button.locked {
     background: #ccc;
     color: #777;
     cursor: not-allowed;
-    position: relative; /* Позиционирование для замка */
+    position: relative;
 }
 
 .level-button.locked::after {
-    content: '\1F512'; /* Unicode для замка */
-    font-size: 24px;
+    content: '\1F512';
+    font-size: 1.5rem;
     color: #555;
     position: absolute;
     top: 50%;
@@ -76,47 +76,42 @@ body {
     transform: translate(-50%, -50%);
 }
 
-
-/* Адаптивный дизайн для экранов шириной до 768px */
 @media (max-width: 768px) {
     .level-container {
-        grid-template-columns: repeat(3, 1fr); /* 3 столбца */
-        gap: 10px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
     }
 
     .level-button {
-        width: 80px;
-        height: 80px;
-        font-size: 16px;
+        width: 5rem;
+        height: 5rem;
+        font-size: 1rem;
     }
 
     .back-button {
-        font-size: 14px;
-        padding: 8px 16px;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
     }
 }
 
-/* Адаптивный дизайн для экранов шириной до 480px */
 @media (max-width: 480px) {
     .level-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 столбца */
-        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
 
     .level-button {
-        width: 70px;
-        height: 70px;
-        font-size: 14px;
+        width: 4.375rem;
+        height: 4.375rem;
+        font-size: 0.875rem;
     }
 
     .back-button {
-        font-size: 12px;
-        padding: 6px 12px;
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
     }
 }
 
-
-/* Подключаем Arizonia-Regular */
 @font-face {
     font-family: 'Arizonia';
     src: url('../fonts/Arizonia-Regular.ttf') format('truetype');
