@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.gallery-content');
     const indicators = document.querySelectorAll('.indicator');
 
+    function changeSlide(direction) {
+        slides[currentSlide].classList.add('hidden');
+        currentSlide = (currentSlide + direction + slides.length) % slides.length;
+        slides[currentSlide].classList.remove('hidden');
+    }
+
     function resetSlides() {
         slides.forEach((slide) => slide.classList.add('hidden'));
         indicators.forEach((indicator) => indicator.textContent = '');
@@ -13,11 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         slides[index].classList.remove('hidden');
         indicators[index].textContent = index + 1;
         currentSlide = index;
-    }
-
-    function changeSlide(direction) {
-        const newIndex = (currentSlide + direction + slides.length) % slides.length;
-        updateSlide(newIndex);
     }
 
     function setSlide(index) {

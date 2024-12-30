@@ -5,11 +5,11 @@ const popupMessage = document.getElementById("popupMessage");
 const playAgainButton = document.getElementById("playAgainButton");
 const nextLevelButton = document.getElementById("nextLevelButton");
 const startButton = document.getElementById("startButton");
-let gameTitle = document.getElementById("gameTitle");
 const enemyCounterContainer = document.getElementById("enemyCounterContainer");
 const leftArrow = document.getElementById("leftArrow");
 const rightArrow = document.getElementById("rightArrow");
 
+let gameTitle = document.getElementById("gameTitle");
 let isGameActive = false;
 let isPaused = false;
 let player;
@@ -21,9 +21,10 @@ let isMovingLeft = false;
 let isMovingRight = false;
 let canShoot = true;
 let killedEnemiesCount = 0;
-let currentLevelConfig;
 let currentDifficulty = "low";
 let currentLevelIndex = 0;
+let selectedLevelID = -1;
+let currentLevelConfig;
 let boss;
 let bossHealth;
 let data;
@@ -58,6 +59,44 @@ endGamePopup.innerHTML = `
     <button id="restartGameButton">Restart</button>
 `;
 document.body.appendChild(endGamePopup);
+loadProgress();
+
+function getElementTotalHeight(element) {
+    const style = window.getComputedStyle(element);
+    const marginTop = parseFloat(style.marginTop) || 0;
+    const marginBottom = parseFloat(style.marginBottom) || 0;
+    return element.offsetHeight + marginTop + marginBottom;
+}
+
+function adjustCanvasHeight() {
+    const title = document.getElementById("gameTitle");
+    const counter = document.getElementById("enemyCounterContainer");
+
+    const totalTopHeight = getElementTotalHeight(title) + getElementTotalHeight(counter);
+
+    const screenHeight = window.innerHeight;
+
+    const canvasHeight = screenHeight - totalTopHeight;
+
+    const canvas = document.getElementById("gameCanvas");
+    canvas.style.height = `${canvasHeight}px`;
+    canvas.style.width = "100%";
+}
+
+adjustCanvasHeight();
+
+function getSelectedIndex() {
+    const stringSelectedIndex = localStorage.getItem("selectedLevelIndex");
+    if (stringSelectedIndex) {
+        const selectedIndex = parseInt(stringSelectedIndex, 10);
+        if (selectedIndex >= 0 && selectedIndex < levelsCompleted.length) {
+            selectedLevelID = levelsCompleted[selectedIndex];
+        }
+        localStorage.setItem("selectedLevelIndex", -1);
+    }
+}
+
+getSelectedIndex();
 
 function restartGame() {
     isGameActive = false;
@@ -68,7 +107,7 @@ function restartGame() {
     enemyCounterContainer.classList.add("hidden");
     pauseButton.disabled = false;
     updateEnemyCounter();
-    gameTitle.textContent = "Space Invaders";
+    gameTitle.textContent = "T&J";
     localStorage.removeItem("gameProgress");
     bullets = [];
     enemies = [];
@@ -149,13 +188,13 @@ function spawnEnemies() {
         do {
             const enemyX = Math.random() * (canvas.width - 4 * enemyWidth) + 2 * enemyWidth;
             const enemyY = Math.random() * (canvas.height / 2 - enemyWidth);
-
+            const enemySpeed = isMobile ? currentLevelConfig.mobileEnemySpeed : currentLevelConfig.enemySpeed;
             newEnemy = {
                 x: enemyX,
                 y: enemyY,
                 width: enemyWidth,
                 height: enemyWidth,
-                speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002),
+                speed: enemySpeed || Math.max(1, canvas.width * 0.002),
             };
 
             attempts++;
@@ -215,6 +254,8 @@ pauseModal.innerHTML = `
         <button id="resumeButton" class="pauseWindowButton">Continue</button>
         <button id="nextLevelWindowButton" class="pauseWindowButton">Next level</button>
         <button id="previousLevelButton" class="pauseWindowButton">Previous level</button>
+        <button id="homeButton" class="pauseWindowButton">Home</button>
+        <button id="levelsListButton" class="pauseWindowButton">Levels list</button>
     </div>
 `;
 document.body.appendChild(pauseModal);
@@ -249,10 +290,22 @@ function getNextLevel() {
 const resumeButton = document.getElementById("resumeButton");
 const nextLevelWindowButton = document.getElementById("nextLevelWindowButton");
 const previousLevelButton = document.getElementById("previousLevelButton");
+const homeButton = document.getElementById("homeButton");
+const levelsListButton = document.getElementById("levelsListButton");
 
 resumeButton.addEventListener("click", resumeTheGame);
 nextLevelWindowButton.addEventListener("click", handleNextLevelWindowButton);
 previousLevelButton.addEventListener("click", handlePreviousLevelWindowButton);
+homeButton.addEventListener("click", handleHomeButtonClicked);
+levelsListButton.addEventListener("click", handleLevelsListButtonClicked);
+
+function handleLevelsListButtonClicked() {
+    window.location.href = "level.html"
+}
+
+function handleHomeButtonClicked() {
+    window.location.href = "../../index.html";
+}
 
 async function handleNextLevelWindowButton() {
     const nextLevel = getNextLevel();
@@ -264,6 +317,7 @@ async function handleNextLevelWindowButton() {
     } else {
         await loadLevelConfig();
     }
+    window.scrollTo(0, document.body.scrollHeight);
     resetGame();
     if (levelsCompleted[levelsCompleted.length - 1] === 16 
         && currentLevelConfig.id === 16) {
@@ -287,6 +341,7 @@ async function handlePreviousLevelWindowButton() {
     boss = null;
 
     await setupPreviousLevel(previousLevel);
+    window.scrollTo(0, document.body.scrollHeight);
     resetGame();
     gameLoop();
 }
@@ -507,6 +562,7 @@ playAgainButton.addEventListener("click", () => {
     pauseButton.disabled = false;
     killedEnemiesCount = 0;
     enemies = [];
+    window.scrollTo(0, document.body.scrollHeight);
     resetGame();
     gameLoop();
 });
@@ -537,6 +593,7 @@ nextLevelButton.addEventListener("click", async () => {
         saveProgress();
     }
     await loadLevelConfig(nextLevelIndex);
+    window.scrollTo(0, document.body.scrollHeight);
     resetGame();
     gameLoop();
 });
@@ -548,8 +605,10 @@ function handleMotion(event) {
 
     if (x > 1) {
         player.x = Math.max(0, player.x - player.speed);
+        player.isFacingLeft = true;
     } else if (x < -1) {
         player.x = Math.min(canvas.width - player.width, player.x + player.speed);
+        player.isFacingLeft = false;
     }
 }
 
@@ -583,14 +642,12 @@ function requestMotionPermission() {
 function handleStart() {
     startButton.classList.add("hidden");
     enemyCounterContainer.classList.remove("hidden");
-    loadProgress();
 
     if (levelsCompleted.length >= totalLevelsToPlay) {
         handleZeroLevels();
         return;
     }
-
-    loadLevelConfig().then(() => {
+    loadLevelConfig(selectedLevelID).then(() => {
         resetGame();
         gameLoop();
     });
@@ -605,6 +662,7 @@ startButton.addEventListener("click", async () => {
     } else {
         handleStart();
     }
+    window.scrollTo(0, document.body.scrollHeight);
 });
 
 function resetGame() {
@@ -627,6 +685,7 @@ function resetGame() {
 function resizeCanvas() {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
+    adjustCanvasHeight();
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -638,6 +697,7 @@ function createPlayer() {
         width: 150,
         height: 120,
         speed: currentLevelConfig.playerSpeed || Math.max(2, canvas.width * 0.007),
+        isFacingLeft: true
     };
 }
 
@@ -656,7 +716,7 @@ function createEnemies() {
         cols = currentLevelConfig.mobileEnemiesCols || cols;
         rows = currentLevelConfig.mobileEnemiesRows || rows;
     }
-
+    const enemySpeed = isMobile ? currentLevelConfig.mobileEnemySpeed : currentLevelConfig.enemySpeed;
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
             enemies.push({
@@ -664,7 +724,7 @@ function createEnemies() {
                 y: startY + row * gap,
                 width: enemyWidth,
                 height: enemyHeight,
-                speed: currentLevelConfig.enemySpeed || Math.max(1, canvas.width * 0.002),
+                speed: enemySpeed || Math.max(1, canvas.width * 0.002),
             });
         }
     }
@@ -751,7 +811,8 @@ function update() {
     if (hitWall) {
         enemyDirection *= -1;
         enemies.forEach((enemy) => {
-            enemy.y += currentLevelConfig.enemyDropSpeed || 20;
+            const dropSpeed = isMobile ? currentLevelConfig.mobileEnemyDropSpeed : currentLevelConfig.enemyDropSpeed;
+            enemy.y += dropSpeed || 20;
             if (enemy.y + enemy.height >= canvas.height - player.height) {
                 isGameActive = false;
                 nextLevelButton.disabled = true;
@@ -764,11 +825,27 @@ function update() {
     checkCollisions();
 }
 
+function drawPlayer() {
+    if (!player) return;
+
+    ctx.save();
+
+    if (!player.isFacingLeft) {
+        ctx.translate(player.x + player.width, player.y);
+        ctx.scale(-1, 1);
+        ctx.drawImage(playerImg, 0, 0, player.width, player.height);
+    } else {
+        ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+    }
+
+    ctx.restore();
+}
+
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (player) {
-        ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+        drawPlayer();
     }
 
     bullets.forEach((bullet) => {
@@ -872,9 +949,11 @@ rightArrow.addEventListener("mouseup", () => {
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
         isMovingLeft = true;
+        if (player) player.isFacingLeft = true;
     }
     else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         isMovingRight = true;
+        if (player) player.isFacingLeft = false;
     }
     else {
         switch(e.key) {
@@ -919,7 +998,6 @@ function showPopup(message, outcome) {
     popupImage.style.height = "auto";
     popupImage.style.marginTop = "10px";
 
-    // Устанавливаем изображение и соответствующий класс для иконки
     if (outcome === "You Win!") {
         popupImage.src = "../images/victory.png";
 
@@ -938,6 +1016,3 @@ function showPopup(message, outcome) {
     popup.appendChild(popupImage);
     popup.classList.remove("hidden");
 }
-
-
-

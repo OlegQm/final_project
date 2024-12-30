@@ -10,6 +10,7 @@
 
 h1 {
     font-size: 3em;
+    margin-top: 1px;
     margin-bottom: 20px;
     text-align: center;
     display: flex;
@@ -26,10 +27,10 @@ h1 {
     transform: translate(-50%, -50%);
     background-color: white;
     color: black;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 1.25rem;
+    border-radius: 0.625rem;
     text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
 
@@ -39,20 +40,19 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #f7f9fb;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 1.25rem;
+    border-radius: 0.625rem;
     color: black;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
     z-index: 1000;
     text-align: center;
-    width: 70%; /* Адаптивная ширина */
-    max-width: 600px; /* Максимальная ширина */
-    min-width: 300px; /* Минимальная ширина */
-
+    width: 70%;
+    max-width: 37.5rem;
+    min-width: 18.75rem;
 }
 
 #popup button {
-    margin: 5px;
+    margin: 0.3125rem;
 }
 
 body {
@@ -61,8 +61,7 @@ body {
     align-items: center;
     background-color: #152853;
     color: white;
-    font-size: 30px;
-
+    font-size: 1.875rem;
 }
 
 h1 {
@@ -70,37 +69,33 @@ h1 {
 }
 
 button {
-    font-family:'BeerMoney', sans-serif;
+    font-family: 'BeerMoney', sans-serif;
     background-color: #fff;
-    border: 2px solid #e48b16;
-
-    margin-bottom: 10px;
-    padding: 10px 20px;
-    font-size: 20px;
+    border: 0.125rem solid #e48b16;
+    margin-bottom: 0.625rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 1.25rem;
     cursor: pointer;
 }
 
 #enemyCounterContainer {
-    font-family:'BeerMoney', sans-serif;
-
-    font-size: 20px;
+    font-family: 'BeerMoney', sans-serif;
+    font-size: 1.25rem;
     color: white;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
 }
 
 canvas {
-
     width: 80vw;
-    height: 98vh;
-    border: 2px solid white;
+    height: 90vh;
+    border: 0.125rem solid white;
     background-image: url("../images/bg_2.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    margin-bottom: 10px; /* Добавлено */
+    margin-bottom: 0.625rem;
 }
-
 
 @media (max-width: 600px) {
     canvas {
@@ -109,26 +104,23 @@ canvas {
 }
 
 #pauseButton {
-    font-family:'BeerMoney', sans-serif;
-
-    margin-right: 10px;
-    padding: 5px 10px;
-    font-size: 20px;
+    font-family: 'BeerMoney', sans-serif;
+    margin-right: 0.625rem;
+    padding: 0.3125rem 0.625rem;
+    font-size: 1.25rem;
     cursor: pointer;
     background-color: #fff;
     color: #000;
-    border: 2px solid #addc22;
-    border-radius: 5px;
+    border: 0.125rem solid #addc22;
+    border-radius: 0.3125rem;
     transition: background-color 0.3s;
 }
 
 #pauseButton:hover {
     background-color: #99b350;
-
 }
 
 #pauseModal {
-
     position: fixed;
     top: 0;
     left: 0;
@@ -148,27 +140,24 @@ canvas {
 #pauseModal .modal-content {
     background: white;
     color: black;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 1.25rem;
+    border-radius: 0.625rem;
     text-align: center;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.5);
 }
 
 .pause-modal-content {
     text-align: center;
-    font-size: 30px;
+    font-size: 1.875rem;
     color: #addc22;
-
-
 }
 
 .pauseWindowButton {
-
     display: block;
-    width: 200px;
-    margin: 10px auto;
-    padding: 10px;
-    font-size: 20px;
+    width: 12.5rem;
+    margin: 0.625rem auto;
+    padding: 0.625rem;
+    font-size: 1.25rem;
     cursor: pointer;
 }
 
@@ -181,16 +170,16 @@ canvas {
     align-items: center;
     justify-content: center;
     position: relative;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 }
 
 .arrowButton {
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
     background-color: #fff;
     color: #000;
-    font-size: 20px;
-    border: 1px solid #fff;
+    font-size: 1.25rem;
+    border: 0.0625rem solid #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -204,23 +193,24 @@ canvas {
 }
 
 #leftArrow {
-    margin-right: 10px;
+    margin-right: 0.625rem;
 }
 
 #rightArrow {
-    margin-left: 10px;
+    margin-left: 0.625rem;
 }
+
 #popup img {
-    display: block; /* Центрирует изображение внутри контейнера */
-    max-width: 50%; /* Ограничивает ширину изображения */
-    height: auto; /* Сохраняет пропорции изображения */
-    margin: 20px auto; /* Добавляет отступы сверху и снизу, выравнивает по центру */
-    border-radius: 10px; /* Закругленные углы */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Добавляет тень вокруг изображения */
-    background-color: #fff; /* Цвет фона за изображением */
-    padding: 10px; /* Внутренний отступ для создания эффекта рамки */
+    display: block;
+    max-width: 50%;
+    height: auto;
+    margin: 1.25rem auto;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    padding: 0.625rem;
 }
-/* Иконка победы */
+
 .win-icon {
     background-color: #2ebc2e !important;
 }
@@ -232,76 +222,77 @@ canvas {
 #endGamePopup img {
     max-width: 50%;
     height: auto;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
 }
 
 #endGamePopup p {
     font-size: 1.2em;
     text-align: center;
-    margin: 10px 0;
+    margin: 0.625rem 0;
 }
 
 #endGamePopup button {
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     font-size: 1em;
     border: none;
     background-color: #f00;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     cursor: pointer;
 }
 
 .fireworks {
-    position: fixed; /* Фиксированное позиционирование */
-    top: 5%; /* Центр по вертикали */
-    transform: translateY(-50%); /* Сдвиг для вертикального центрирования */
-    width: 30vw; /* Размер фейерверка */
-    height: 30vw; /* Пропорции фейерверка */
+    position: fixed;
+    top: 5%;
+    transform: translateY(-50%);
+    width: 30vw;
+    height: 30vw;
     background: url("../images/fireworks_3.gif") center center no-repeat;
-    background-size: contain; /* Масштабируем изображение */
-    pointer-events: none; /* Не мешаем кликам */
-    z-index: 9999; /* Максимальный индекс слоя */
-}
-/* Салют слева */
-.fireworks-left {
-    left: 30%; /* Располагаем слева */
+    background-size: contain;
+    pointer-events: none;
+    z-index: 9999;
 }
 
-/* Салют справа */
-.fireworks-right {
-    right: 30%; /* Располагаем справа */
+.fireworks-left {
+    left: 30%;
 }
+
+.fireworks-right {
+    right: 30%;
+}
+
 @media (max-width: 600px) {
     #endGamePopup {
-        width: 80%; /* Увеличиваем ширину окна на маленьких экранах */
-        padding: 15px; /* Уменьшаем внутренние отступы */
+        width: 80%;
+        padding: 15px;
     }
 
     #endGamePopup p {
-        font-size: 14px; /* Ещё уменьшаем размер текста */
+        font-size: 14px;
     }
 
     #endGamePopup button {
-        font-size: 0.8em; /* Ещё уменьшаем размер кнопок */
-        padding: 6px 12px; /* Уменьшаем отступы в кнопках */
+        font-size: 0.8em;
+        padding: 6px 12px;
     }
 
     #endGamePopup img {
-        max-width: 80%; /* Увеличиваем относительный размер изображения */
-        margin: 10px auto; /* Уменьшаем отступы */
+        max-width: 80%;
+        margin: 10px auto;
     }
+
     .fireworks {
-        width: 80vw; /* Уменьшаем ширину фейерверка */
-        height: 80vw; /* Уменьшаем высоту фейерверка */
-        top: 10%; /* Сдвигаем ближе к верхней части экрана */
+        width: 80vw;
+        height: 80vw;
+        top: 10%;
     }
 
     .fireworks-left {
-        left: 70%; /* Располагаем ближе к центру экрана */
+        left: 70%;
     }
 
     .fireworks-right {
-        right: 70%; /* Располагаем ближе к центру экрана */
+        right: 70%;
     }
 }
 
@@ -310,14 +301,14 @@ canvas {
         display: none;
     }
 }
+
 @media (min-width: 1024px) {
     .fireworks {
-        width: 120vw; /* Увеличиваем ширину до 120% экрана */
-        height: 120vh; /* Увеличиваем высоту до 120% экрана */
+        width: 120vw;
+        height: 120vh;
     }
 }
 
-/* Подключаем Arizonia-Regular */
 @font-face {
     font-family: 'Arizonia';
     src: url('../fonts/Arizonia-Regular.ttf') format('truetype');
