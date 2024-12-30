@@ -10,6 +10,7 @@
 
 h1 {
     font-size: 3em;
+    margin-top: 1px;
     margin-bottom: 20px;
     text-align: center;
     display: flex;
@@ -62,7 +63,6 @@ body {
     background-color: #152853;
     color: white;
     font-size: 30px;
-
 }
 
 h1 {
@@ -90,15 +90,14 @@ button {
 }
 
 canvas {
-
     width: 80vw;
-    height: 98vh;
+    height: 90vh;
     border: 2px solid white;
     background-image: url("../images/bg_2.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    margin-bottom: 10px; /* Добавлено */
+    margin-bottom: 10px;
 }
 
 

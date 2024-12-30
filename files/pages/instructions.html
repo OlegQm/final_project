@@ -50,15 +50,15 @@
         </div>
 
         <div class="gallery-content hidden">
-            <p class="instructions-text">Ty si Tom, múdry a šikovný kocúr, ktorému už lezie na nervy chaos, ktorý v dome spôsobuje Jerry. Tvojím cieľom je zbaviť sa ho, aby si znovu získal pokoj a rešpekt v dome. Toto je boj o kontrolu nad domom a musíš dokázať, že Tom je skutočný pán domu. Ukáž, kto je tu šéf!
-               Veľa šťastia, a nech myšiak vie, že ťa nemá podceňovať! </p>
+            <p class="instructions-text">Ty si Tom, múdry a šikovný kocúr, ktorému už lezie na nervy chaos, ktorý v dome spôsobuje Jerry. Toto je boj o kontrolu nad domom a musíš dokázať, že si skutočný pán domu. Ukáž, kto je tu šéf!</p>
             <div class="instructions-content">
                 <h2>Ovládanie hry:</h2>
+                <p class="instructions-text">Po stlačení tlačidla "Pause" sa zobrazia tlačidlá na návrat na domovskú stránku a pohyb po úrovniach.</p>
                 <ul class="keyboard-controls">
                     <li><span class="key">←</span> <span class="key">→</span><span class="key_t"> - Pohyb do strán</span></li>
-                    <li><span class="key">P</span><span class="key_t"> - Pauza</span></li>
-                    <li><span class="key">C</span> <span class="key_t">- Pokračovanie v hre</span></li>
-                    <li><span class="key long">Medzerník</span> <span class="key_t">- Streľba</span></li>
+                    <li><span class="key">A</span> <span class="key">D</span><span class="key_t"> - Pohyb do strán</span></li>
+                    <li><span class="key">P</span> <span class="key">C</span><span class="key_t"> - Pauza a pokračovanie v hre</span></li>
+                    <li><span class="key long">Space</span> <span class="key_t">- Streľba</span></li>
                 </ul>
             </div>
             <button id="startButton" onclick="window.location.href='start.html'">START</button>
@@ -78,20 +78,8 @@
         <span class="indicator" onclick="setSlide(6)"></span>
         <span class="indicator" onclick="setSlide(7)"></span>
         <span class="indicator" onclick="setSlide(8)"></span>
-
     </div>
 </div>
-
-<script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.gallery-content');
-
-    function changeSlide(direction) {
-        slides[currentSlide].classList.add('hidden');
-        currentSlide = (currentSlide + direction + slides.length) % slides.length;
-        slides[currentSlide].classList.remove('hidden');
-    }
-</script>
 <script src="../js/instructions.js"></script>
 
 </body>

@@ -231,8 +231,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Уменьшаем тень */
 }
 
-
-/* Кнопка "START" */
 #startButton {
     padding: 15px 30px;
     font-size: 20px;
@@ -242,11 +240,9 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    position: absolute;
-    bottom: -13%; /* Размещаем кнопку снизу */
-    left: 50%;
-    transform: translate(-50%, -50%);
-
+    position: relative;
+    margin: 20px auto;
+    display: block;
 }
 
 #startButton:hover {
@@ -302,7 +298,7 @@ i {
 @media (min-width: 769px) {
     .indicators {
         flex-direction: column; /* Переключаем на вертикальное расположение */
-        bright: 10px; /* Располагаем индикаторы справа */
+        right: 10px; /* Располагаем индикаторы справа */
         top: 50%; /* По центру экрана */
         transform: translateY(-50%);
     }
@@ -339,8 +335,9 @@ i {
     }
 
     #startButton {
-        font-size: 16px; /* Уменьшаем размер текста */
+        font-size: 16px;
         padding: 10px 20px;
+        margin-top: 10px;
     }
 
     .indicator {
