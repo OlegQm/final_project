@@ -164,8 +164,8 @@ body {
 
 .key_t {
     font-family: 'BeerMoney', sans-serif;
+    color: rgb(29, 29, 71);
     font-size: 1.5625rem;
-    color: #ffffff;
     margin-left: 0.625rem;
     line-height: 1.5;
 }
