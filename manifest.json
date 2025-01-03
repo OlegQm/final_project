@@ -1,0 +1,21 @@
+{
+    "name": "Tom and Jerry",
+    "short_name": "T&J",
+    "description": "Funny game about Tom and Jerry!",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#152853",
+    "theme_color": "#152853",
+    "icons": [
+      {
+        "src": "./files/images/pwa_icon_192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "./files/images/pwa_icon_512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+}
